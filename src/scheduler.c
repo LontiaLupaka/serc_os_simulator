@@ -8,6 +8,7 @@
 #include "../include/deadlock.h"
 #include "../include/logger.h"
 #include "../include/config.h"
+#include "../include/ipc.h"
 
 #define GANTT_SAVE_FILE "gantt_history.dat"
 #define GANTT_SAVE_VERSION 1
@@ -278,6 +279,13 @@ static int acquire_resources_for_dispatch(int pid_index, char *output) {
         processes[pid_index].pid
     );
 
+    ipc_handle_scheduler_event(
+        "RESOURCE_WAIT",
+        processes[pid_index].pid,
+        "resource request denied by Banker safety check",
+        scheduler_stats.current_time
+    );
+
     LOG_WARNING(
         "DEADLOCK",
         "P%d resource request denied by Banker's Algorithm at time %d",
@@ -306,6 +314,13 @@ static void retry_resource_waiting_processes(char *output) {
         );
 
         add_to_ready(i);
+
+        ipc_handle_scheduler_event(
+            "RESOURCE_READY",
+            processes[i].pid,
+            "resources allocated and process moved to READY",
+            scheduler_stats.current_time
+        );
 
         if (output) {
             append_output(
@@ -570,6 +585,13 @@ void run_hybrid_scheduler(char *output) {
 
                 LOG_INFO("SCHEDULER", "P%d interrupted by a higher priority process at time %d",
                     processes[scheduler_running_process].pid,
+                    scheduler_stats.current_time
+                );
+
+                ipc_handle_scheduler_event(
+                    "PREEMPTED",
+                    processes[scheduler_running_process].pid,
+                    "higher priority process entered ready queue",
                     scheduler_stats.current_time
                 );
 
@@ -856,6 +878,13 @@ int scheduler_step(char *output) {
                 "Interrupted"
             );
 
+            ipc_handle_scheduler_event(
+                "PREEMPTED",
+                processes[scheduler_running_process].pid,
+                "higher priority process entered ready queue",
+                scheduler_stats.current_time
+            );
+
             processes[scheduler_running_process]
                 .times_preempted++;
 
@@ -938,6 +967,18 @@ int scheduler_step(char *output) {
             processes[scheduler_running_process].priority,
             processes[scheduler_running_process].remaining_time
         );
+
+        ipc_handle_scheduler_event(
+            "DISPATCH",
+            processes[scheduler_running_process].pid,
+            "CPU dispatch granted",
+            scheduler_stats.current_time
+        );
+        ipc_process_inbox(
+            processes[scheduler_running_process].pid,
+            output,
+            20000
+        );
     }
 
     /* ================= EXECUTE ================= */
@@ -1001,6 +1042,18 @@ int scheduler_step(char *output) {
             processes[scheduler_running_process].pid
         );
 
+        ipc_handle_scheduler_event(
+            "TERMINATED",
+            processes[scheduler_running_process].pid,
+            "process completed and released scheduler ownership",
+            scheduler_stats.current_time
+        );
+        ipc_process_inbox(
+            processes[scheduler_running_process].pid,
+            output,
+            20000
+        );
+
         scheduler_stats
             .total_processes_completed++;
 
@@ -1048,6 +1101,13 @@ int scheduler_step(char *output) {
             processes[scheduler_running_process]
                 .last_event,
             "Quantum Expired"
+        );
+
+        ipc_handle_scheduler_event(
+            "QUANTUM_EXPIRED",
+            processes[scheduler_running_process].pid,
+            "time quantum expired, process returned to ready queue",
+            scheduler_stats.current_time
         );
 
         processes[scheduler_running_process]

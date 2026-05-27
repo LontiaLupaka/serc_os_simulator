@@ -1,0 +1,13 @@
+IPC_LOG_SAVE 1
+11
+0	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
+1	0	1	ENQUEUE	SCHED_EVT	QUEUED	t=0 process admitted to IPC-aware scheduler
+0	0	1	CREATED	SCHED_EVT	SCHEDULER	t=0 process admitted to IPC-aware scheduler
+2	0	1	ENQUEUE	SCHED_EVT	QUEUED	t=0 CPU dispatch granted
+0	0	1	DISPATCH	SCHED_EVT	SCHEDULER	t=0 CPU dispatch granted
+3	0	1	DEQUEUE	SCHED_EVT	DELIVERED	t=0 process admitted to IPC-aware scheduler
+4	0	1	DEQUEUE	SCHED_EVT	DELIVERED	t=0 CPU dispatch granted
+5	0	1	ENQUEUE	SCHED_EVT	QUEUED	t=7 process completed and released scheduler ownership
+7	0	1	TERMINATED	SCHED_EVT	SCHEDULER	t=7 process completed and released scheduler ownership
+6	0	1	DEQUEUE	SCHED_EVT	DELIVERED	t=7 process completed and released scheduler ownership
+8	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized

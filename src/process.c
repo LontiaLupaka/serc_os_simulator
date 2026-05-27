@@ -7,6 +7,7 @@
 #include "../include/logger.h"
 #include "../include/config.h"
 #include "../include/scheduler.h"
+#include "../include/ipc.h"
 
 #define PROCESS_SAVE_FILE "processes.dat"
 #define PROCESS_SAVE_VERSION 1
@@ -327,6 +328,12 @@ int add_process_auto(
 
     save_processes_to_file();
     LOG_INFO("PROCESS", "Created process P%d type=%s priority=%d memory=%d burst=%d", p.pid, p.type, p.priority, p.memory_required, p.burst_time);
+    ipc_handle_scheduler_event(
+        "CREATED",
+        p.pid,
+        "process admitted to IPC-aware scheduler",
+        scheduler_stats.current_time
+    );
 
     /* OUTPUT */
 
@@ -572,6 +579,7 @@ void reset_system(void) {
     /* Remove persistent save file */
     remove(PROCESS_SAVE_FILE);
     remove("gantt_history.dat");
+    remove(IPC_LOG_SAVE_FILE);
     logger_clear_logs();
     LOG_WARNING("SYSTEM", "System reset: clearing process, memory, scheduler state, and logs");
 
@@ -583,4 +591,7 @@ void reset_system(void) {
 
     /* Reset scheduler state */
     initialize_scheduler();
+
+    /* Reset IPC queues and communication logs */
+    init_ipc_system();
 }

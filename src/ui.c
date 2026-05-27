@@ -14,8 +14,10 @@
 GtkWidget *window, *main_box;
 GtkWidget *live_process_grid;
 GtkWidget *scheduler_output_label;
+GtkWidget *ipc_output_label;
 
 static guint scheduler_timer = 0;
+static guint ipc_timer = 0;
 
 /* INPUT FIELDS */
 GtkWidget *e_type, *e_sev, *e_lives, *e_loc;
@@ -56,6 +58,27 @@ static const char *ui_log_level_to_string(LogLevel level) {
     }
 }
 
+static void refresh_ipc_output_label(void) {
+    if (!ipc_output_label)
+        return;
+
+    static char buffer[24000];
+    ipc_format_logs(buffer, sizeof(buffer));
+    gtk_label_set_text(GTK_LABEL(ipc_output_label), buffer);
+}
+
+static void stop_live_timers(void) {
+    if (scheduler_timer != 0) {
+        g_source_remove(scheduler_timer);
+        scheduler_timer = 0;
+    }
+
+    if (ipc_timer != 0) {
+        g_source_remove(ipc_timer);
+        ipc_timer = 0;
+    }
+}
+
 /* -------- SCREEN MANAGEMENT -------- */
 
 void clear() {
@@ -90,11 +113,7 @@ static void go_home(GtkButton *btn, gpointer user_data) {
     (void)btn;
     (void)user_data;
 
-    /* STOP SCHEDULER TIMER IF RUNNING */
-    if (scheduler_timer != 0) {
-        g_source_remove(scheduler_timer);
-        scheduler_timer = 0;
-    }
+    stop_live_timers();
 
     home();
 }
@@ -231,11 +250,7 @@ void add_proc_real(GtkButton *btn, gpointer user_data) {
 
 void create() {
 
-    /* STOP SCHEDULER TIMER IF RUNNING */
-    if (scheduler_timer != 0) {
-        g_source_remove(scheduler_timer);
-        scheduler_timer = 0;
-    }
+    stop_live_timers();
 
     GtkWidget *box =
         gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -578,6 +593,7 @@ static gboolean scheduler_tick(gpointer data) {
     );
 
     refresh_live_process_table();
+    refresh_ipc_output_label();
 
     if (!scheduler_has_active_processes()) {
 
@@ -645,6 +661,17 @@ void run_sched() {
         live_process_grid
     );
 
+    gtk_box_append(GTK_BOX(box), title("📡 LIVE IPC LOG"));
+
+    ipc_output_label = gtk_label_new("");
+    gtk_widget_add_css_class(ipc_output_label, "output-panel");
+    gtk_label_set_wrap(GTK_LABEL(ipc_output_label), TRUE);
+    gtk_label_set_selectable(GTK_LABEL(ipc_output_label), TRUE);
+    gtk_label_set_xalign(GTK_LABEL(ipc_output_label), 0.0);
+    refresh_ipc_output_label();
+
+    gtk_box_append(GTK_BOX(box), ipc_output_label);
+
     GtkWidget *back =
         gtk_button_new_with_label(
             "⬅ Back to Main"
@@ -665,8 +692,7 @@ void run_sched() {
 
     reset_scheduler_for_run();
 
-    if (scheduler_timer != 0)
-        g_source_remove(scheduler_timer);
+    stop_live_timers();
 
     scheduler_timer =
         g_timeout_add(
@@ -678,23 +704,32 @@ void run_sched() {
 
 /* -------- IPC -------- */
 
+static gboolean ipc_tick(gpointer data) {
+    (void)data;
+
+    refresh_ipc_output_label();
+
+    return TRUE;
+}
+
 void ipc_screen() {
+
+    stop_live_timers();
 
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_add_css_class(box, "main-container");
 
     gtk_box_append(GTK_BOX(box), title("📡 Inter-Process Communication"));
 
-    const char *coordination_report =
-        simulate_process_coordination(1, "MAJOR_EMERGENCY");
+    ipc_output_label = gtk_label_new("");
+    gtk_widget_add_css_class(ipc_output_label, "output-panel");
 
-    GtkWidget *coordination_label = gtk_label_new(coordination_report);
-    gtk_widget_add_css_class(coordination_label, "output-panel");
+    gtk_label_set_wrap(GTK_LABEL(ipc_output_label), TRUE);
+    gtk_label_set_selectable(GTK_LABEL(ipc_output_label), TRUE);
+    gtk_label_set_xalign(GTK_LABEL(ipc_output_label), 0.0);
+    refresh_ipc_output_label();
 
-    gtk_label_set_wrap(GTK_LABEL(coordination_label), TRUE);
-    gtk_label_set_selectable(GTK_LABEL(coordination_label), TRUE);
-
-    gtk_box_append(GTK_BOX(box), coordination_label);
+    gtk_box_append(GTK_BOX(box), ipc_output_label);
 
     GtkWidget *back = gtk_button_new_with_label("⬅ Back to Main");
     gtk_widget_add_css_class(back, "secondary");
@@ -704,6 +739,8 @@ void ipc_screen() {
     gtk_box_append(GTK_BOX(box), back);
 
     show(box);
+
+    ipc_timer = g_timeout_add(1000, ipc_tick, NULL);
 }
 
 /* -------- DEADLOCK -------- */

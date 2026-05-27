@@ -1,1 +1,9 @@
-1779548257	2	SYSTEM	System reset: clearing process, memory, scheduler state, and logs
+1779887030	2	SYSTEM	System reset: clearing process, memory, scheduler state, and logs
+1779887463	1	PROCESS	Created process P1 type=fire priority=2 memory=26 burst=7
+1779887463	1	IPC	Queued SCHED_EVT message from P0 to P1: t=0 process admitted to IPC-aware scheduler
+1779887468	1	IPC	Queued SCHED_EVT message from P0 to P1: t=0 CPU dispatch granted
+1779887468	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=0 process admitted to IPC-aware scheduler
+1779887468	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=0 CPU dispatch granted
+1779887474	1	SCHEDULER	Process P1 completed at time 7
+1779887474	1	IPC	Queued SCHED_EVT message from P0 to P1: t=7 process completed and released scheduler ownership
+1779887474	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=7 process completed and released scheduler ownership
