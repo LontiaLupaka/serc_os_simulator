@@ -33,6 +33,19 @@ static void append_line(char *buffer, size_t size, const char *format, ...) {
     va_end(args);
 }
 
+static const char *resource_name(int resource) {
+    switch (resource) {
+        case RESOURCE_MEMORY:
+            return "Memory";
+        case RESOURCE_VEHICLE:
+            return "Vehicles";
+        case RESOURCE_CHANNEL:
+            return "Channels";
+        default:
+            return "Unknown";
+    }
+}
+
 static int banker_is_safe(
     ResourceAllocation state[MAX_PROCESSES],
     int available[NUM_RESOURCES],
@@ -315,7 +328,7 @@ void release_resources(int process_index) {
 
 const char* detect_deadlock() {
 
-    static char status[1200];
+    static char status[24000];
     status[0] = '\0';
 
     int current_available[NUM_RESOURCES];
@@ -334,6 +347,9 @@ const char* detect_deadlock() {
     );
 
     append_line(status, sizeof(status),
+        "=========== DEADLOCK ANALYSIS ===========\n\n");
+
+    append_line(status, sizeof(status),
         "Banker's Algorithm State: %s\n",
         safe ? "SAFE" : "UNSAFE");
 
@@ -346,16 +362,171 @@ const char* detect_deadlock() {
         get_memory_allocation_strategy_name());
 
     append_line(status, sizeof(status),
-        "Total Memory: %d MB\n",
-        TOTAL_MEMORY);
+        "\nRESOURCE VECTOR\n"
+        "Resource      Total    Allocated    Available\n");
 
     append_line(status, sizeof(status),
-        "Used Memory: %d MB\n",
-        used_memory);
-
-    append_line(status, sizeof(status),
-        "Free Memory: %d MB\n",
+        "Memory        %-8d %-12d %d\n",
+        total_resources[RESOURCE_MEMORY],
+        used_memory,
         free_memory);
+
+    append_line(status, sizeof(status),
+        "Vehicles      %-8d %-12d %d\n",
+        total_resources[RESOURCE_VEHICLE],
+        total_resources[RESOURCE_VEHICLE] - current_available[RESOURCE_VEHICLE],
+        current_available[RESOURCE_VEHICLE]);
+
+    append_line(status, sizeof(status),
+        "Channels      %-8d %-12d %d\n",
+        total_resources[RESOURCE_CHANNEL],
+        total_resources[RESOURCE_CHANNEL] - current_available[RESOURCE_CHANNEL],
+        current_available[RESOURCE_CHANNEL]);
+
+    append_line(status, sizeof(status),
+        "\nBANKER MATRICES\n"
+        "PID   State                Alloc(M,V,C)   Max(M,V,C)     Need(M,V,C)\n");
+
+    if (process_count == 0) {
+        append_line(status, sizeof(status),
+            "No processes are currently registered.\n");
+    }
+
+    for (int i = 0; i < process_count; i++) {
+        char state[32];
+        get_process_state_string(processes[i].state, state);
+
+        append_line(status, sizeof(status),
+            "P%-4d %-20s (%d,%d,%d)      (%d,%d,%d)      (%d,%d,%d)\n",
+            processes[i].pid,
+            state,
+            resource_state[i].allocated[RESOURCE_MEMORY],
+            resource_state[i].allocated[RESOURCE_VEHICLE],
+            resource_state[i].allocated[RESOURCE_CHANNEL],
+            resource_state[i].maximum[RESOURCE_MEMORY],
+            resource_state[i].maximum[RESOURCE_VEHICLE],
+            resource_state[i].maximum[RESOURCE_CHANNEL],
+            resource_state[i].need[RESOURCE_MEMORY],
+            resource_state[i].need[RESOURCE_VEHICLE],
+            resource_state[i].need[RESOURCE_CHANNEL]);
+    }
+
+    append_line(status, sizeof(status),
+        "\nRESOURCE ALLOCATION GRAPH\n");
+
+    int edge_count = 0;
+
+    for (int i = 0; i < process_count; i++) {
+        if (processes[i].state == PROCESS_TERMINATED ||
+            processes[i].remaining_time <= 0)
+            continue;
+
+        for (int r = 0; r < NUM_RESOURCES; r++) {
+            if (resource_state[i].allocated[r] > 0) {
+                append_line(status, sizeof(status),
+                    "%s --allocates %d--> P%d\n",
+                    resource_name(r),
+                    resource_state[i].allocated[r],
+                    processes[i].pid);
+                edge_count++;
+            }
+        }
+
+        for (int r = 0; r < NUM_RESOURCES; r++) {
+            if (resource_state[i].need[r] <= 0)
+                continue;
+
+            if (processes[i].state == PROCESS_WAITING_RESOURCE ||
+                processes[i].resource_blocked ||
+                resource_state[i].need[r] > current_available[r]) {
+                append_line(status, sizeof(status),
+                    "P%d --requests %d--> %s\n",
+                    processes[i].pid,
+                    resource_state[i].need[r],
+                    resource_name(r));
+                edge_count++;
+            }
+        }
+    }
+
+    if (edge_count == 0) {
+        append_line(status, sizeof(status),
+            "No active allocation or waiting edges.\n");
+    }
+
+    append_line(status, sizeof(status),
+        "\nWAITING CHAINS\n");
+
+    int chain_count = 0;
+
+    for (int i = 0; i < process_count; i++) {
+        if (processes[i].state != PROCESS_WAITING_RESOURCE &&
+            !processes[i].resource_blocked)
+            continue;
+
+        for (int r = 0; r < NUM_RESOURCES; r++) {
+            if (resource_state[i].need[r] <= current_available[r])
+                continue;
+
+            append_line(status, sizeof(status),
+                "P%d waits for %s: needs %d, available %d",
+                processes[i].pid,
+                resource_name(r),
+                resource_state[i].need[r],
+                current_available[r]);
+
+            int holders = 0;
+
+            for (int j = 0; j < process_count; j++) {
+                if (j == i ||
+                    processes[j].state == PROCESS_TERMINATED ||
+                    processes[j].remaining_time <= 0 ||
+                    resource_state[j].allocated[r] <= 0)
+                    continue;
+
+                append_line(status, sizeof(status),
+                    "%sP%d holds %d",
+                    holders == 0 ? " | held by " : ", ",
+                    processes[j].pid,
+                    resource_state[j].allocated[r]);
+                holders++;
+            }
+
+            if (holders == 0) {
+                append_line(status, sizeof(status),
+                    " | no active process currently holds this resource");
+            }
+
+            append_line(status, sizeof(status), "\n");
+            chain_count++;
+        }
+    }
+
+    if (chain_count == 0) {
+        append_line(status, sizeof(status),
+            "No processes are currently blocked in resource-wait state.\n");
+    }
+
+    append_line(status, sizeof(status),
+        "\nBANKER SAFE SEQUENCE\n");
+
+    if (safe) {
+        if (sequence_count == 0) {
+            append_line(status, sizeof(status),
+                "All active processes are already complete or no processes exist.\n");
+        } else {
+            for (int i = 0; i < sequence_count; i++) {
+                append_line(status, sizeof(status),
+                    "%sP%d",
+                    i == 0 ? "" : " -> ",
+                    sequence[i]);
+            }
+            append_line(status, sizeof(status), "\n");
+        }
+    } else {
+        append_line(status, sizeof(status),
+            "No safe completion sequence exists for the current allocation state.\n");
+    }
 
     return status;
 }

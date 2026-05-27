@@ -1,4 +1,7 @@
 PROC_SAVE 1
-2
-1
+5
+4
 1	fire	2	7	0	0	7	26	5	0	7	0	0	0	0	0	0	0	0	Process Completed
+2	police	1	16	0	0	16	26	5	7	23	7	0	0	0	0	0	0	0	Process Completed
+3	fire	1	10	0	0	10	26	5	23	33	23	0	0	0	0	0	0	0	Process Completed
+4	ambulnce	2	7	0	0	7	26	5	33	40	33	0	0	0	0	0	0	0	Process Completed

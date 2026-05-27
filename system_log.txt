@@ -7,3 +7,27 @@
 1779887474	1	SCHEDULER	Process P1 completed at time 7
 1779887474	1	IPC	Queued SCHED_EVT message from P0 to P1: t=7 process completed and released scheduler ownership
 1779887474	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=7 process completed and released scheduler ownership
+1779891694	1	PROCESS	Created process P2 type=police priority=1 memory=26 burst=16
+1779891694	1	IPC	Queued SCHED_EVT message from P0 to P2: t=7 process admitted to IPC-aware scheduler
+1779891703	1	IPC	Queued SCHED_EVT message from P0 to P2: t=7 CPU dispatch granted
+1779891703	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=7 process admitted to IPC-aware scheduler
+1779891703	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=7 CPU dispatch granted
+1779891720	1	SCHEDULER	Process P2 completed at time 23
+1779891720	1	IPC	Queued SCHED_EVT message from P0 to P2: t=23 process completed and released scheduler ownership
+1779891720	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=23 process completed and released scheduler ownership
+1779891797	1	PROCESS	Created process P3 type=fire priority=1 memory=26 burst=10
+1779891797	1	IPC	Queued SCHED_EVT message from P0 to P3: t=23 process admitted to IPC-aware scheduler
+1779891804	1	IPC	Queued SCHED_EVT message from P0 to P3: t=23 CPU dispatch granted
+1779891804	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=23 process admitted to IPC-aware scheduler
+1779891804	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=23 CPU dispatch granted
+1779891813	1	SCHEDULER	Process P3 completed at time 33
+1779891813	1	IPC	Queued SCHED_EVT message from P0 to P3: t=33 process completed and released scheduler ownership
+1779891813	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=33 process completed and released scheduler ownership
+1779892175	1	PROCESS	Created process P4 type=ambulnce priority=2 memory=26 burst=7
+1779892175	1	IPC	Queued SCHED_EVT message from P0 to P4: t=33 process admitted to IPC-aware scheduler
+1779892182	1	IPC	Queued SCHED_EVT message from P0 to P4: t=33 CPU dispatch granted
+1779892182	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=33 process admitted to IPC-aware scheduler
+1779892182	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=33 CPU dispatch granted
+1779892189	1	SCHEDULER	Process P4 completed at time 40
+1779892189	1	IPC	Queued SCHED_EVT message from P0 to P4: t=40 process completed and released scheduler ownership
+1779892189	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=40 process completed and released scheduler ownership
