@@ -1,0 +1,1 @@
+1779548257	2	SYSTEM	System reset: clearing process, memory, scheduler state, and logs
