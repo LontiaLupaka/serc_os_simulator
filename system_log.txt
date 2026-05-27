@@ -16,3 +16,136 @@
 1779904043	1	MEMORY	Allocated 35MB to P5 using First Fit at block 173-207
 1779904043	1	PROCESS	Created process P5 type=accident priority=1 memory=35 burst=14
 1779904043	1	IPC	Queued SCHED_EVT message from P0 to P5: t=0 process admitted to IPC-aware scheduler
+1779904312	1	IPC	Queued SCHED_EVT message from P0 to P1: t=0 CPU dispatch granted
+1779904312	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=0 CPU dispatch granted
+1779904314	1	IPC	Queued SCHED_EVT message from P0 to P1: t=3 time quantum expired, process returned to ready queue
+1779904315	1	IPC	Queued SCHED_EVT message from P0 to P2: t=3 CPU dispatch granted
+1779904315	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=3 CPU dispatch granted
+1779904317	1	IPC	Queued SCHED_EVT message from P0 to P2: t=6 time quantum expired, process returned to ready queue
+1779904318	1	IPC	Queued SCHED_EVT message from P0 to P3: t=6 CPU dispatch granted
+1779904318	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=0 process admitted to IPC-aware scheduler
+1779904318	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=6 CPU dispatch granted
+1779904320	1	IPC	Queued SCHED_EVT message from P0 to P3: t=9 time quantum expired, process returned to ready queue
+1779904321	1	IPC	Queued SCHED_EVT message from P0 to P5: t=9 CPU dispatch granted
+1779904321	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=0 process admitted to IPC-aware scheduler
+1779904321	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=9 CPU dispatch granted
+1779904323	1	IPC	Queued SCHED_EVT message from P0 to P5: t=12 time quantum expired, process returned to ready queue
+1779904324	1	IPC	Queued SCHED_EVT message from P0 to P1: t=12 CPU dispatch granted
+1779904324	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=3 time quantum expired, process returned to ready queue
+1779904324	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=12 CPU dispatch granted
+1779904326	1	IPC	Queued SCHED_EVT message from P0 to P1: t=15 time quantum expired, process returned to ready queue
+1779904327	1	IPC	Queued SCHED_EVT message from P0 to P2: t=15 CPU dispatch granted
+1779904327	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=6 time quantum expired, process returned to ready queue
+1779904327	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=15 CPU dispatch granted
+1779904329	1	IPC	Queued SCHED_EVT message from P0 to P2: t=18 time quantum expired, process returned to ready queue
+1779904330	1	IPC	Queued SCHED_EVT message from P0 to P3: t=18 CPU dispatch granted
+1779904330	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=9 time quantum expired, process returned to ready queue
+1779904330	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=18 CPU dispatch granted
+1779904332	1	IPC	Queued SCHED_EVT message from P0 to P3: t=21 time quantum expired, process returned to ready queue
+1779904333	1	IPC	Queued SCHED_EVT message from P0 to P5: t=21 CPU dispatch granted
+1779904333	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=12 time quantum expired, process returned to ready queue
+1779904333	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=21 CPU dispatch granted
+1779904335	1	IPC	Queued SCHED_EVT message from P0 to P5: t=24 time quantum expired, process returned to ready queue
+1779904336	1	IPC	Queued SCHED_EVT message from P0 to P1: t=24 CPU dispatch granted
+1779904336	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=15 time quantum expired, process returned to ready queue
+1779904336	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=24 CPU dispatch granted
+1779904338	1	IPC	Queued SCHED_EVT message from P0 to P1: t=27 time quantum expired, process returned to ready queue
+1779904339	1	IPC	Queued SCHED_EVT message from P0 to P2: t=27 CPU dispatch granted
+1779904339	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=18 time quantum expired, process returned to ready queue
+1779904339	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=27 CPU dispatch granted
+1779904341	1	IPC	Queued SCHED_EVT message from P0 to P2: t=30 time quantum expired, process returned to ready queue
+1779904342	1	IPC	Queued SCHED_EVT message from P0 to P3: t=30 CPU dispatch granted
+1779904342	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=21 time quantum expired, process returned to ready queue
+1779904342	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=30 CPU dispatch granted
+1779904344	1	IPC	Queued SCHED_EVT message from P0 to P3: t=33 time quantum expired, process returned to ready queue
+1779904345	1	IPC	Queued SCHED_EVT message from P0 to P5: t=33 CPU dispatch granted
+1779904345	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=24 time quantum expired, process returned to ready queue
+1779904345	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=33 CPU dispatch granted
+1779904347	1	IPC	Queued SCHED_EVT message from P0 to P5: t=36 time quantum expired, process returned to ready queue
+1779904348	1	IPC	Queued SCHED_EVT message from P0 to P1: t=36 CPU dispatch granted
+1779904348	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=27 time quantum expired, process returned to ready queue
+1779904348	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=36 CPU dispatch granted
+1779904350	1	IPC	Queued SCHED_EVT message from P0 to P1: t=39 time quantum expired, process returned to ready queue
+1779904351	1	IPC	Queued SCHED_EVT message from P0 to P2: t=39 CPU dispatch granted
+1779904351	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=30 time quantum expired, process returned to ready queue
+1779904351	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=39 CPU dispatch granted
+1779904353	1	IPC	Queued SCHED_EVT message from P0 to P2: t=42 time quantum expired, process returned to ready queue
+1779904354	1	IPC	Queued SCHED_EVT message from P0 to P3: t=42 CPU dispatch granted
+1779904354	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=33 time quantum expired, process returned to ready queue
+1779904354	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=42 CPU dispatch granted
+1779904356	1	IPC	Queued SCHED_EVT message from P0 to P3: t=45 time quantum expired, process returned to ready queue
+1779904357	1	IPC	Queued SCHED_EVT message from P0 to P5: t=45 CPU dispatch granted
+1779904357	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=36 time quantum expired, process returned to ready queue
+1779904357	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=45 CPU dispatch granted
+1779904359	1	IPC	Queued SCHED_EVT message from P0 to P5: t=48 time quantum expired, process returned to ready queue
+1779904362	1	IPC	Queued SCHED_EVT message from P0 to P1: t=48 CPU dispatch granted
+1779904362	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=39 time quantum expired, process returned to ready queue
+1779904362	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=48 CPU dispatch granted
+1779904364	1	IPC	Queued SCHED_EVT message from P0 to P1: t=51 time quantum expired, process returned to ready queue
+1779904365	1	IPC	Queued SCHED_EVT message from P0 to P2: t=51 CPU dispatch granted
+1779904365	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=42 time quantum expired, process returned to ready queue
+1779904365	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=51 CPU dispatch granted
+1779904367	1	IPC	Queued SCHED_EVT message from P0 to P2: t=54 time quantum expired, process returned to ready queue
+1779904368	1	IPC	Queued SCHED_EVT message from P0 to P3: t=54 CPU dispatch granted
+1779904368	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=45 time quantum expired, process returned to ready queue
+1779904368	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=54 CPU dispatch granted
+1779904370	1	IPC	Queued SCHED_EVT message from P0 to P3: t=57 time quantum expired, process returned to ready queue
+1779904371	1	IPC	Queued SCHED_EVT message from P0 to P5: t=57 CPU dispatch granted
+1779904371	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=48 time quantum expired, process returned to ready queue
+1779904371	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=57 CPU dispatch granted
+1779904372	1	MEMORY	Freed 35MB owned by P5
+1779904372	1	SCHEDULER	Process P5 completed at time 59
+1779904372	1	IPC	Queued SCHED_EVT message from P0 to P5: t=59 process completed and released scheduler ownership
+1779904372	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=59 process completed and released scheduler ownership
+1779904373	1	IPC	Queued SCHED_EVT message from P0 to P1: t=59 CPU dispatch granted
+1779904373	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=51 time quantum expired, process returned to ready queue
+1779904373	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=59 CPU dispatch granted
+1779904375	1	IPC	Queued SCHED_EVT message from P0 to P1: t=62 time quantum expired, process returned to ready queue
+1779904376	1	IPC	Queued SCHED_EVT message from P0 to P2: t=62 CPU dispatch granted
+1779904376	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=54 time quantum expired, process returned to ready queue
+1779904376	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=62 CPU dispatch granted
+1779904378	1	IPC	Queued SCHED_EVT message from P0 to P2: t=65 time quantum expired, process returned to ready queue
+1779904379	1	IPC	Queued SCHED_EVT message from P0 to P3: t=65 CPU dispatch granted
+1779904379	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=57 time quantum expired, process returned to ready queue
+1779904379	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=65 CPU dispatch granted
+1779904381	1	IPC	Queued SCHED_EVT message from P0 to P3: t=68 time quantum expired, process returned to ready queue
+1779904382	1	IPC	Queued SCHED_EVT message from P0 to P1: t=68 CPU dispatch granted
+1779904382	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=62 time quantum expired, process returned to ready queue
+1779904382	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=68 CPU dispatch granted
+1779904384	1	IPC	Queued SCHED_EVT message from P0 to P1: t=71 time quantum expired, process returned to ready queue
+1779904385	1	IPC	Queued SCHED_EVT message from P0 to P2: t=71 CPU dispatch granted
+1779904385	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=65 time quantum expired, process returned to ready queue
+1779904385	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=71 CPU dispatch granted
+1779904387	1	IPC	Queued SCHED_EVT message from P0 to P2: t=74 time quantum expired, process returned to ready queue
+1779904388	1	IPC	Queued SCHED_EVT message from P0 to P3: t=74 CPU dispatch granted
+1779904388	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=68 time quantum expired, process returned to ready queue
+1779904388	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=74 CPU dispatch granted
+1779904390	1	IPC	Queued SCHED_EVT message from P0 to P3: t=77 time quantum expired, process returned to ready queue
+1779904391	1	IPC	Queued SCHED_EVT message from P0 to P1: t=77 CPU dispatch granted
+1779904391	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=71 time quantum expired, process returned to ready queue
+1779904391	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=77 CPU dispatch granted
+1779904393	1	MEMORY	Freed 50MB owned by P1
+1779904393	1	SCHEDULER	Process P1 completed at time 80
+1779904393	1	IPC	Queued SCHED_EVT message from P0 to P1: t=80 process completed and released scheduler ownership
+1779904393	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=80 process completed and released scheduler ownership
+1779904394	1	IPC	Queued SCHED_EVT message from P0 to P2: t=80 CPU dispatch granted
+1779904394	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=74 time quantum expired, process returned to ready queue
+1779904394	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=80 CPU dispatch granted
+1779904394	1	MEMORY	Freed 47MB owned by P2
+1779904394	1	SCHEDULER	Process P2 completed at time 81
+1779904394	1	IPC	Queued SCHED_EVT message from P0 to P2: t=81 process completed and released scheduler ownership
+1779904395	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=81 process completed and released scheduler ownership
+1779904396	1	IPC	Queued SCHED_EVT message from P0 to P3: t=81 CPU dispatch granted
+1779904396	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=77 time quantum expired, process returned to ready queue
+1779904396	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=81 CPU dispatch granted
+1779904398	1	MEMORY	Freed 50MB owned by P3
+1779904398	1	SCHEDULER	Process P3 completed at time 84
+1779904398	1	IPC	Queued SCHED_EVT message from P0 to P3: t=84 process completed and released scheduler ownership
+1779904398	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=84 process completed and released scheduler ownership
+1779904399	1	IPC	Queued SCHED_EVT message from P0 to P4: t=84 CPU dispatch granted
+1779904399	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=0 process admitted to IPC-aware scheduler
+1779904399	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=84 CPU dispatch granted
+1779904406	1	MEMORY	Freed 26MB owned by P4
+1779904406	1	SCHEDULER	Process P4 completed at time 92
+1779904406	1	IPC	Queued SCHED_EVT message from P0 to P4: t=92 process completed and released scheduler ownership
+1779904406	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=92 process completed and released scheduler ownership

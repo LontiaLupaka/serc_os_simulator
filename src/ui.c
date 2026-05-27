@@ -650,6 +650,26 @@ void run_sched() {
         0.0
     );
 
+    gtk_label_set_wrap(
+        GTK_LABEL(scheduler_output_label),
+        TRUE
+    );
+
+    gtk_label_set_wrap_mode(
+        GTK_LABEL(scheduler_output_label),
+        PANGO_WRAP_WORD_CHAR
+    );
+
+    gtk_widget_set_hexpand(
+        scheduler_output_label,
+        TRUE
+    );
+
+    gtk_label_set_selectable(
+        GTK_LABEL(scheduler_output_label),
+        TRUE
+    );
+
     gtk_box_append(
         GTK_BOX(box),
         scheduler_output_label
