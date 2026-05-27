@@ -179,7 +179,7 @@ void load_processes_from_file(void) {
             next_pid = p.pid + 1;
 
         if (p.memory_allocated > 0)
-            allocate_memory(p.memory_allocated);
+            allocate_memory_for_process(p.pid, p.memory_allocated);
 
         if (p.remaining_time > 0 &&
             p.state != PROCESS_TERMINATED) {
@@ -245,22 +245,6 @@ int add_process_auto(
         return 0;
     }
 
-    /* MEMORY CHECK */
-
-    if (!allocate_memory(memory_required)) {
-
-        printf("❌ Memory allocation failed\n");
-        LOG_WARNING("PROCESS", "Failed to allocate %dMB for emergency process '%s'", memory_required, type);
-        return 0;
-    }
-
-    register_process_resources(
-        process_count,
-        memory_required,
-        vehicles_required,
-        channels_required
-    );
-
     PCB p;
 
     memset(&p, 0, sizeof(PCB));
@@ -319,6 +303,22 @@ int add_process_auto(
     p.resource_blocked = 0;
 
     strcpy(p.last_event, "Process Created");
+
+    /* MEMORY CHECK */
+
+    if (!allocate_memory_for_process(p.pid, memory_required)) {
+
+        printf("❌ Memory allocation failed\n");
+        LOG_WARNING("PROCESS", "Failed to allocate %dMB for emergency process '%s'", memory_required, type);
+        return 0;
+    }
+
+    register_process_resources(
+        process_count,
+        memory_required,
+        vehicles_required,
+        channels_required
+    );
 
     /* STORE PROCESS */
 
@@ -417,9 +417,7 @@ void terminate_process(int pid) {
 
             if (processes[i].memory_allocated > 0) {
 
-                deallocate_memory(
-                    processes[i].memory_allocated
-                );
+                deallocate_memory_for_process(processes[i].pid);
 
                 processes[i].memory_allocated = 0;
             }

@@ -1,7 +1,8 @@
 PROC_SAVE 1
+6
 5
-4
-1	fire	2	7	0	0	7	26	5	0	7	0	0	0	0	0	0	0	0	Process Completed
-2	police	1	16	0	0	16	26	5	7	23	7	0	0	0	0	0	0	0	Process Completed
-3	fire	1	10	0	0	10	26	5	23	33	23	0	0	0	0	0	0	0	Process Completed
-4	ambulnce	2	7	0	0	7	26	5	33	40	33	0	0	0	0	0	0	0	Process Completed
+1	fire	1	24	24	0	0	50	0	0	0	0	0	0	0	0	0	0	50	Process Created
+2	callapse	1	22	22	0	0	47	0	0	0	0	0	0	0	0	0	0	47	Process Created
+3	major fire	1	24	24	0	0	50	0	0	0	0	0	0	0	0	0	0	50	Process Created
+4	rescue	3	8	8	0	0	26	0	0	0	0	0	0	0	0	0	0	26	Process Created
+5	accident	1	14	14	0	0	35	0	0	0	0	0	0	0	0	0	0	35	Process Created

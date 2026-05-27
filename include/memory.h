@@ -30,7 +30,9 @@ extern MemorySystem memory_system;
 
 /* Memory Management Functions */
 int allocate_memory(int size);
+int allocate_memory_for_process(int pid, int size);
 int deallocate_memory(int size);
+int deallocate_memory_for_process(int pid);
 int get_memory_used();
 int get_memory_free();
 void set_memory_allocation_strategy(MemoryAllocationStrategy strategy);

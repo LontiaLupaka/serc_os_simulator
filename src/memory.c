@@ -14,6 +14,7 @@ typedef struct {
     int start;
     int size;
     int allocated;
+    int pid;
 } MemoryBlock;
 
 static MemoryBlock blocks[MAX_MEMORY_BLOCKS];
@@ -42,6 +43,18 @@ static void reset_memory_blocks() {
     blocks[0].start = 0;
     blocks[0].size = TOTAL_MEMORY;
     blocks[0].allocated = 0;
+    blocks[0].pid = -1;
+}
+
+static int free_block_count() {
+    int count = 0;
+
+    for (int i = 0; i < block_count; i++) {
+        if (!blocks[i].allocated)
+            count++;
+    }
+
+    return count;
 }
 
 static int find_block_for_strategy(int size) {
@@ -99,6 +112,47 @@ static int largest_free_block() {
     }
 
     return largest;
+}
+
+static int suitable_free_block_count(int size) {
+    int count = 0;
+
+    for (int i = 0; i < block_count; i++) {
+        if (!blocks[i].allocated && blocks[i].size >= size)
+            count++;
+    }
+
+    return count;
+}
+
+static MemoryAllocationStrategy choose_system_strategy(int size) {
+    int free_blocks = free_block_count();
+    int largest = largest_free_block();
+    int fragmentation = calculate_fragmentation();
+    int suitable_blocks = suitable_free_block_count(size);
+
+    /*
+       The simulator chooses policy automatically:
+       - large emergency footprints preserve small holes by using Worst Fit
+       - small footprints reduce fragmentation by using Best Fit
+       - medium/simple cases use First Fit
+    */
+    if (size >= 45)
+        return MEMORY_WORST_FIT;
+
+    if (size <= 30)
+        return MEMORY_BEST_FIT;
+
+    if (largest > 0 && size >= (largest * 60) / 100)
+        return MEMORY_WORST_FIT;
+
+    if (fragmentation >= 10 || suitable_blocks >= 2)
+        return MEMORY_BEST_FIT;
+
+    if (free_blocks <= 1 || suitable_blocks <= 1)
+        return MEMORY_FIRST_FIT;
+
+    return MEMORY_FIRST_FIT;
 }
 
 static int total_free_block_memory() {
@@ -173,6 +227,8 @@ int allocate_memory(int size) {
     if (size <= 0)
         return 0;
 
+    current_strategy = choose_system_strategy(size);
+
     int block_index = find_block_for_strategy(size);
 
     if (block_index < 0) {
@@ -200,12 +256,14 @@ int allocate_memory(int size) {
         blocks[block_index + 1].size =
             blocks[block_index].size - size;
         blocks[block_index + 1].allocated = 0;
+        blocks[block_index + 1].pid = -1;
 
         blocks[block_index].size = size;
         block_count++;
     }
 
     blocks[block_index].allocated = 1;
+    blocks[block_index].pid = -1;
     used += size;
 
     update_memory_statistics();
@@ -216,6 +274,90 @@ int allocate_memory(int size) {
         get_memory_allocation_strategy_name(),
         used,
         TOTAL_MEMORY
+    );
+
+    return 1;
+}
+
+int allocate_memory_for_process(int pid, int size) {
+
+    if (pid <= 0 || size <= 0)
+        return 0;
+
+    for (int i = 0; i < block_count; i++) {
+        if (blocks[i].allocated && blocks[i].pid == pid)
+            return 1;
+    }
+
+    current_strategy = choose_system_strategy(size);
+
+    int block_index = find_block_for_strategy(size);
+
+    if (block_index < 0) {
+
+        printf(
+            "MEMORY ALLOCATION FAILED FOR P%d (%d requested, %d free)\n",
+            pid,
+            size,
+            get_memory_free()
+        );
+
+        LOG_WARNING(
+            "MEMORY",
+            "Failed to allocate %dMB for P%d using %s",
+            size,
+            pid,
+            get_memory_allocation_strategy_name()
+        );
+
+        return 0;
+    }
+
+    if (blocks[block_index].size > size) {
+        if (block_count >= MAX_MEMORY_BLOCKS) {
+            printf("MEMORY ALLOCATION FAILED FOR P%d (memory map full)\n", pid);
+            return 0;
+        }
+
+        for (int i = block_count; i > block_index + 1; i--)
+            blocks[i] = blocks[i - 1];
+
+        blocks[block_index + 1].start =
+            blocks[block_index].start + size;
+        blocks[block_index + 1].size =
+            blocks[block_index].size - size;
+        blocks[block_index + 1].allocated = 0;
+        blocks[block_index + 1].pid = -1;
+
+        blocks[block_index].size = size;
+        block_count++;
+    }
+
+    blocks[block_index].allocated = 1;
+    blocks[block_index].pid = pid;
+    used += size;
+
+    update_memory_statistics();
+
+    printf(
+        "MEMORY ALLOCATED: P%d -> %d MB | STRATEGY: %s | BLOCK: %d-%d | TOTAL USED: %d/%d\n",
+        pid,
+        size,
+        get_memory_allocation_strategy_name(),
+        blocks[block_index].start,
+        blocks[block_index].start + blocks[block_index].size - 1,
+        used,
+        TOTAL_MEMORY
+    );
+
+    LOG_INFO(
+        "MEMORY",
+        "Allocated %dMB to P%d using %s at block %d-%d",
+        size,
+        pid,
+        get_memory_allocation_strategy_name(),
+        blocks[block_index].start,
+        blocks[block_index].start + blocks[block_index].size - 1
     );
 
     return 1;
@@ -257,6 +399,7 @@ int deallocate_memory(int size) {
         used = 0;
 
     blocks[block_index].allocated = 0;
+    blocks[block_index].pid = -1;
     merge_free_blocks();
     update_memory_statistics();
 
@@ -266,6 +409,46 @@ int deallocate_memory(int size) {
         used,
         TOTAL_MEMORY
     );
+
+    return 1;
+}
+
+int deallocate_memory_for_process(int pid) {
+
+    if (pid <= 0)
+        return 0;
+
+    int freed = 0;
+
+    for (int i = 0; i < block_count; i++) {
+        if (!blocks[i].allocated || blocks[i].pid != pid)
+            continue;
+
+        freed += blocks[i].size;
+        blocks[i].allocated = 0;
+        blocks[i].pid = -1;
+    }
+
+    if (freed <= 0)
+        return 0;
+
+    used -= freed;
+
+    if (used < 0)
+        used = 0;
+
+    merge_free_blocks();
+    update_memory_statistics();
+
+    printf(
+        "MEMORY FREED: P%d -> %d MB | TOTAL USED: %d/%d\n",
+        pid,
+        freed,
+        used,
+        TOTAL_MEMORY
+    );
+
+    LOG_INFO("MEMORY", "Freed %dMB owned by P%d", freed, pid);
 
     return 1;
 }
@@ -365,7 +548,7 @@ void print_memory_status(char *buffer) {
         "TOTAL MEMORY: %d MB\n"
         "LARGEST FREE BLOCK: %d MB\n"
         "FRAGMENTATION: %d%%\n"
-        "=====================================\n",
+        "MEMORY BLOCKS:\n",
 
         get_memory_allocation_strategy_name(),
         used,
@@ -376,4 +559,27 @@ void print_memory_status(char *buffer) {
     );
 
     strcat(buffer, temp);
+
+    for (int i = 0; i < block_count; i++) {
+        char owner[32];
+
+        if (blocks[i].allocated)
+            sprintf(owner, "P%d", blocks[i].pid);
+        else
+            strcpy(owner, "-");
+
+        sprintf(
+            temp,
+            "  [%03d-%03d] %4d MB | %-9s | Owner: %s\n",
+            blocks[i].start,
+            blocks[i].start + blocks[i].size - 1,
+            blocks[i].size,
+            blocks[i].allocated ? "ALLOCATED" : "FREE",
+            owner
+        );
+
+        strcat(buffer, temp);
+    }
+
+    strcat(buffer, "=====================================\n");
 }

@@ -1,41 +1,14 @@
 IPC_LOG_SAVE 1
-39
+12
 0	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
 1	0	1	ENQUEUE	SCHED_EVT	QUEUED	t=0 process admitted to IPC-aware scheduler
 0	0	1	CREATED	SCHED_EVT	SCHEDULER	t=0 process admitted to IPC-aware scheduler
-2	0	1	ENQUEUE	SCHED_EVT	QUEUED	t=0 CPU dispatch granted
-0	0	1	DISPATCH	SCHED_EVT	SCHEDULER	t=0 CPU dispatch granted
-3	0	1	DEQUEUE	SCHED_EVT	DELIVERED	t=0 process admitted to IPC-aware scheduler
-4	0	1	DEQUEUE	SCHED_EVT	DELIVERED	t=0 CPU dispatch granted
-5	0	1	ENQUEUE	SCHED_EVT	QUEUED	t=7 process completed and released scheduler ownership
-7	0	1	TERMINATED	SCHED_EVT	SCHEDULER	t=7 process completed and released scheduler ownership
-6	0	1	DEQUEUE	SCHED_EVT	DELIVERED	t=7 process completed and released scheduler ownership
-8	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
-9	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
-10	0	2	ENQUEUE	SCHED_EVT	QUEUED	t=7 process admitted to IPC-aware scheduler
-7	0	2	CREATED	SCHED_EVT	SCHEDULER	t=7 process admitted to IPC-aware scheduler
-11	0	2	ENQUEUE	SCHED_EVT	QUEUED	t=7 CPU dispatch granted
-7	0	2	DISPATCH	SCHED_EVT	SCHEDULER	t=7 CPU dispatch granted
-12	0	2	DEQUEUE	SCHED_EVT	DELIVERED	t=7 process admitted to IPC-aware scheduler
-13	0	2	DEQUEUE	SCHED_EVT	DELIVERED	t=7 CPU dispatch granted
-14	0	2	ENQUEUE	SCHED_EVT	QUEUED	t=23 process completed and released scheduler ownership
-23	0	2	TERMINATED	SCHED_EVT	SCHEDULER	t=23 process completed and released scheduler ownership
-15	0	2	DEQUEUE	SCHED_EVT	DELIVERED	t=23 process completed and released scheduler ownership
-16	0	3	ENQUEUE	SCHED_EVT	QUEUED	t=23 process admitted to IPC-aware scheduler
-23	0	3	CREATED	SCHED_EVT	SCHEDULER	t=23 process admitted to IPC-aware scheduler
-17	0	3	ENQUEUE	SCHED_EVT	QUEUED	t=23 CPU dispatch granted
-23	0	3	DISPATCH	SCHED_EVT	SCHEDULER	t=23 CPU dispatch granted
-18	0	3	DEQUEUE	SCHED_EVT	DELIVERED	t=23 process admitted to IPC-aware scheduler
-19	0	3	DEQUEUE	SCHED_EVT	DELIVERED	t=23 CPU dispatch granted
-20	0	3	ENQUEUE	SCHED_EVT	QUEUED	t=33 process completed and released scheduler ownership
-33	0	3	TERMINATED	SCHED_EVT	SCHEDULER	t=33 process completed and released scheduler ownership
-21	0	3	DEQUEUE	SCHED_EVT	DELIVERED	t=33 process completed and released scheduler ownership
-22	0	4	ENQUEUE	SCHED_EVT	QUEUED	t=33 process admitted to IPC-aware scheduler
-33	0	4	CREATED	SCHED_EVT	SCHEDULER	t=33 process admitted to IPC-aware scheduler
-23	0	4	ENQUEUE	SCHED_EVT	QUEUED	t=33 CPU dispatch granted
-33	0	4	DISPATCH	SCHED_EVT	SCHEDULER	t=33 CPU dispatch granted
-24	0	4	DEQUEUE	SCHED_EVT	DELIVERED	t=33 process admitted to IPC-aware scheduler
-25	0	4	DEQUEUE	SCHED_EVT	DELIVERED	t=33 CPU dispatch granted
-26	0	4	ENQUEUE	SCHED_EVT	QUEUED	t=40 process completed and released scheduler ownership
-40	0	4	TERMINATED	SCHED_EVT	SCHEDULER	t=40 process completed and released scheduler ownership
-27	0	4	DEQUEUE	SCHED_EVT	DELIVERED	t=40 process completed and released scheduler ownership
+2	0	2	ENQUEUE	SCHED_EVT	QUEUED	t=0 process admitted to IPC-aware scheduler
+0	0	2	CREATED	SCHED_EVT	SCHEDULER	t=0 process admitted to IPC-aware scheduler
+3	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
+4	0	3	ENQUEUE	SCHED_EVT	QUEUED	t=0 process admitted to IPC-aware scheduler
+0	0	3	CREATED	SCHED_EVT	SCHEDULER	t=0 process admitted to IPC-aware scheduler
+5	0	4	ENQUEUE	SCHED_EVT	QUEUED	t=0 process admitted to IPC-aware scheduler
+0	0	4	CREATED	SCHED_EVT	SCHEDULER	t=0 process admitted to IPC-aware scheduler
+6	0	5	ENQUEUE	SCHED_EVT	QUEUED	t=0 process admitted to IPC-aware scheduler
+0	0	5	CREATED	SCHED_EVT	SCHEDULER	t=0 process admitted to IPC-aware scheduler
