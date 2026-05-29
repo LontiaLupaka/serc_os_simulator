@@ -14,6 +14,7 @@
 GtkWidget *window, *main_box;
 GtkWidget *live_process_grid;
 GtkWidget *scheduler_output_label;
+GtkWidget *scheduler_status_label;
 GtkWidget *ipc_output_label;
 GtkWidget *deadlock_output_label;
 
@@ -28,6 +29,8 @@ GtkWidget *e_urg, *e_people, *e_damage;
 /* ===================== PROCESS SCREEN DECLARATION ===================== */
 void process_screen();
 void log_screen();
+void ipc_screen();
+void deadlock_screen();
 
 /* -------- UTIL -------- */
 
@@ -77,6 +80,31 @@ static void refresh_deadlock_output_label(void) {
         GTK_LABEL(deadlock_output_label),
         detect_deadlock()
     );
+}
+
+static void refresh_scheduler_status_label(void) {
+    if (!scheduler_status_label)
+        return;
+
+    IpcLogEntry logs[MAX_IPC_LOGS];
+    int ipc_count = 0;
+    const char *deadlock_report = detect_deadlock();
+    const char *deadlock_state =
+        strstr(deadlock_report, "Deadlock risk detected") ? "Risk detected" : "Clear";
+
+    ipc_get_recent_logs(logs, MAX_IPC_LOGS, &ipc_count);
+
+    char status[256];
+    snprintf(
+        status,
+        sizeof(status),
+        "Deadlock: %s\nIPC activity: %d recent event%s",
+        deadlock_state,
+        ipc_count,
+        ipc_count == 1 ? "" : "s"
+    );
+
+    gtk_label_set_text(GTK_LABEL(scheduler_status_label), status);
 }
 
 static void stop_live_timers(void) {
@@ -610,8 +638,7 @@ static gboolean scheduler_tick(gpointer data) {
     );
 
     refresh_live_process_table();
-    refresh_ipc_output_label();
-    refresh_deadlock_output_label();
+    refresh_scheduler_status_label();
 
     if (!scheduler_has_active_processes()) {
 
@@ -699,27 +726,45 @@ void run_sched() {
         live_process_grid
     );
 
-    gtk_box_append(GTK_BOX(box), title("🔒 LIVE DEADLOCK / RESOURCE GRAPH"));
+    scheduler_status_label = gtk_label_new("");
+    gtk_widget_add_css_class(scheduler_status_label, "status-panel");
+    gtk_label_set_xalign(GTK_LABEL(scheduler_status_label), 0.0);
+    gtk_label_set_wrap(GTK_LABEL(scheduler_status_label), TRUE);
+    refresh_scheduler_status_label();
 
-    deadlock_output_label = gtk_label_new("");
-    gtk_widget_add_css_class(deadlock_output_label, "output-panel");
-    gtk_label_set_wrap(GTK_LABEL(deadlock_output_label), TRUE);
-    gtk_label_set_selectable(GTK_LABEL(deadlock_output_label), TRUE);
-    gtk_label_set_xalign(GTK_LABEL(deadlock_output_label), 0.0);
-    refresh_deadlock_output_label();
+    gtk_box_append(GTK_BOX(box), scheduler_status_label);
 
-    gtk_box_append(GTK_BOX(box), deadlock_output_label);
+    GtkWidget *detail_buttons =
+        gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
 
-    gtk_box_append(GTK_BOX(box), title("📡 LIVE IPC LOG"));
+    gtk_widget_set_halign(detail_buttons, GTK_ALIGN_CENTER);
 
-    ipc_output_label = gtk_label_new("");
-    gtk_widget_add_css_class(ipc_output_label, "output-panel");
-    gtk_label_set_wrap(GTK_LABEL(ipc_output_label), TRUE);
-    gtk_label_set_selectable(GTK_LABEL(ipc_output_label), TRUE);
-    gtk_label_set_xalign(GTK_LABEL(ipc_output_label), 0.0);
-    refresh_ipc_output_label();
+    GtkWidget *deadlock_details =
+        gtk_button_new_with_label("🔒 Deadlock Details");
 
-    gtk_box_append(GTK_BOX(box), ipc_output_label);
+    GtkWidget *ipc_details =
+        gtk_button_new_with_label("📡 IPC Details");
+
+    gtk_widget_add_css_class(deadlock_details, "secondary");
+    gtk_widget_add_css_class(ipc_details, "secondary");
+
+    g_signal_connect(
+        deadlock_details,
+        "clicked",
+        G_CALLBACK(deadlock_screen),
+        NULL
+    );
+
+    g_signal_connect(
+        ipc_details,
+        "clicked",
+        G_CALLBACK(ipc_screen),
+        NULL
+    );
+
+    gtk_box_append(GTK_BOX(detail_buttons), deadlock_details);
+    gtk_box_append(GTK_BOX(detail_buttons), ipc_details);
+    gtk_box_append(GTK_BOX(box), detail_buttons);
 
     GtkWidget *back =
         gtk_button_new_with_label(
