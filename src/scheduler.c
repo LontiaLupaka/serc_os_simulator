@@ -12,6 +12,8 @@
 
 #define GANTT_SAVE_FILE "gantt_history.dat"
 #define GANTT_SAVE_VERSION 1
+#define SCHEDULER_STATE_FILE "scheduler_state.dat"
+#define SCHEDULER_STATE_VERSION 2
 
 /* ================= GLOBALS ================= */
 
@@ -40,7 +42,99 @@ This allows:
 static int scheduler_running_process = -1;
 static int scheduler_slice = 0;
 static int scheduler_last_running_process = -1;
+static int scheduler_last_dispatched_pid = -1;
 static int scheduler_initialized = 0;
+
+void save_scheduler_state(void) {
+    FILE *f = fopen(SCHEDULER_STATE_FILE, "w");
+
+    if (!f)
+        return;
+
+    fprintf(f, "SCHED_SAVE %d\n", SCHEDULER_STATE_VERSION);
+    fprintf(f, "%d\n", scheduler_stats.current_time);
+    fprintf(f, "%d\n", scheduler_stats.total_context_switches);
+    fprintf(f, "%d\n", scheduler_stats.total_processes_completed);
+    fprintf(f, "%d\n", scheduler_stats.total_processes_preempted);
+    fprintf(f, "%f\n", scheduler_stats.average_waiting_time);
+    fprintf(f, "%f\n", scheduler_stats.average_turnaround_time);
+    fprintf(f, "%f\n", scheduler_stats.cpu_utilization);
+    fprintf(f, "%d\n", scheduler_last_dispatched_pid);
+
+    fclose(f);
+}
+
+static void load_scheduler_state(void) {
+    FILE *f = fopen(SCHEDULER_STATE_FILE, "r");
+
+    if (!f)
+        return;
+
+    int version = 0;
+    SchedulerStats loaded = {0};
+
+    int scanned = fscanf(
+        f,
+        "SCHED_SAVE %d\n%d\n%d\n%d\n%d\n%f\n%f\n%f\n%d\n",
+        &version,
+        &loaded.current_time,
+        &loaded.total_context_switches,
+        &loaded.total_processes_completed,
+        &loaded.total_processes_preempted,
+        &loaded.average_waiting_time,
+        &loaded.average_turnaround_time,
+        &loaded.cpu_utilization,
+        &scheduler_last_dispatched_pid
+    );
+
+    fclose(f);
+
+    if ((version == 1 && scanned != 8) ||
+        (version == SCHEDULER_STATE_VERSION && scanned != 9) ||
+        version < 1 ||
+        version > SCHEDULER_STATE_VERSION) {
+        return;
+    }
+
+    if (version == 1)
+        scheduler_last_dispatched_pid = -1;
+
+    scheduler_stats = loaded;
+}
+
+static int count_completed_processes(void) {
+    int completed = 0;
+
+    for (int i = 0; i < process_count; i++) {
+        if (processes[i].remaining_time <= 0 ||
+            processes[i].state == PROCESS_TERMINATED) {
+            completed++;
+        }
+    }
+
+    return completed;
+}
+
+static void sync_completed_process_count(void) {
+    int completed = count_completed_processes();
+
+    if (scheduler_stats.total_processes_completed < completed) {
+        scheduler_stats.total_processes_completed = completed;
+        save_scheduler_state();
+    }
+}
+
+static void record_dispatch_context_switch(int process_index) {
+    int dispatched_pid = processes[process_index].pid;
+
+    if (scheduler_last_dispatched_pid > 0 &&
+        scheduler_last_dispatched_pid != dispatched_pid) {
+        scheduler_stats.total_context_switches++;
+    }
+
+    scheduler_last_dispatched_pid = dispatched_pid;
+    save_scheduler_state();
+}
 
 static int same_timeline_entry(TimelineEntry a, TimelineEntry b) {
     return a.pid == b.pid &&
@@ -394,19 +488,9 @@ static int get_next_process() {
 
 void initialize_scheduler() {
 
-    scheduler_stats.current_time = 0;
-
-    scheduler_stats.total_context_switches = 0;
-
-    scheduler_stats.total_processes_completed = 0;
-
-    scheduler_stats.total_processes_preempted = 0;
-
-    scheduler_stats.average_waiting_time = 0;
-
-    scheduler_stats.average_turnaround_time = 0;
-
-    scheduler_stats.cpu_utilization = 0;
+    memset(&scheduler_stats, 0, sizeof(scheduler_stats));
+    scheduler_last_dispatched_pid = -1;
+    load_scheduler_state();
 
     timeline_count = 0;
     load_gantt_history();
@@ -428,6 +512,7 @@ void reset_scheduler_for_run() {
 
     load_gantt_history();
     int loaded_current_time = scheduler_stats.current_time;
+    sync_completed_process_count();
 
     /*
     ============================================
@@ -444,12 +529,6 @@ void reset_scheduler_for_run() {
         clear_ready_queues();
 
         scheduler_stats.current_time = loaded_current_time;
-
-        scheduler_stats.total_processes_completed = 0;
-
-        scheduler_stats.total_processes_preempted = 0;
-
-        scheduler_stats.total_context_switches = 0;
 
         scheduler_stats.average_waiting_time = 0;
 
@@ -619,6 +698,7 @@ void run_hybrid_scheduler(char *output) {
 
                 scheduler_stats
                     .total_processes_preempted++;
+                save_scheduler_state();
 
                 scheduler_running_process = -1;
 
@@ -642,11 +722,7 @@ void run_hybrid_scheduler(char *output) {
                 continue;
             }
 
-            if (scheduler_last_running_process != -1) {
-
-                scheduler_stats
-                    .total_context_switches++;
-            }
+            record_dispatch_context_switch(scheduler_running_process);
 
             processes[scheduler_running_process]
                 .state = PROCESS_RUNNING;
@@ -709,6 +785,7 @@ void run_hybrid_scheduler(char *output) {
         }
 
         scheduler_stats.current_time++;
+        save_scheduler_state();
 
         if (processes[scheduler_running_process]
                 .remaining_time <= 0) {
@@ -803,8 +880,10 @@ void run_hybrid_scheduler(char *output) {
         }
     }
 
-    scheduler_stats.total_processes_completed =
-        completed;
+    if (scheduler_stats.total_processes_completed < completed)
+        scheduler_stats.total_processes_completed = completed;
+
+    save_scheduler_state();
 }
 
 int scheduler_has_active_processes() {
@@ -903,6 +982,7 @@ int scheduler_step(char *output) {
 
             scheduler_stats
                 .total_processes_preempted++;
+            save_scheduler_state();
 
             scheduler_running_process = -1;
             scheduler_slice = 0;
@@ -919,6 +999,7 @@ int scheduler_step(char *output) {
         if (scheduler_running_process == -1) {
 
             scheduler_stats.current_time++;
+            save_scheduler_state();
 
             return 1;
         }
@@ -931,8 +1012,7 @@ int scheduler_step(char *output) {
             return 1;
         }
 
-        if (scheduler_last_running_process != -1)
-            scheduler_stats.total_context_switches++;
+        record_dispatch_context_switch(scheduler_running_process);
 
         processes[scheduler_running_process]
             .state = PROCESS_RUNNING;
@@ -1007,6 +1087,7 @@ int scheduler_step(char *output) {
     }
 
     scheduler_stats.current_time++;
+    save_scheduler_state();
 
     /* ================= COMPLETE ================= */
 
@@ -1056,6 +1137,7 @@ int scheduler_step(char *output) {
 
         scheduler_stats
             .total_processes_completed++;
+        save_scheduler_state();
 
         retry_resource_waiting_processes(output);
 
@@ -1162,6 +1244,8 @@ void generate_gantt(char *buffer) {
 }
 
 void print_scheduler_stats(char *buffer) {
+
+    sync_completed_process_count();
 
     int total_wait = 0;
     int total_turnaround = 0;

@@ -9,6 +9,16 @@ typedef struct {
 
     int pid;
 
+    int parent_pid;
+
+    int child_count;
+
+    int active_child_count;
+
+    int generation;
+
+    int is_orphan;
+
     char type[20];
 
     int priority;
@@ -76,6 +86,20 @@ int add_process_auto(
     int people,
     int damage
 );
+
+int add_child_process_auto(
+    int parent_pid,
+    const char *type,
+    int severity,
+    int lives,
+    int location,
+    int urgency,
+    int people,
+    int damage
+);
+
+int find_process_index_by_pid(int pid);
+int process_has_active_children(int pid);
 
 /* terminate process but KEEP IT SAVED */
 void terminate_process(int pid);

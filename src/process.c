@@ -10,13 +10,86 @@
 #include "../include/ipc.h"
 
 #define PROCESS_SAVE_FILE "processes.dat"
-#define PROCESS_SAVE_VERSION 1
+#define PROCESS_SAVE_VERSION 2
 
 PCB processes[MAX_PROCESSES];
 int process_count = 0;
 
 /* UNIQUE PID GENERATOR */
 static int next_pid = 1;
+
+int find_process_index_by_pid(int pid) {
+    for (int i = 0; i < process_count; i++) {
+        if (processes[i].pid == pid)
+            return i;
+    }
+
+    return -1;
+}
+
+int process_has_active_children(int pid) {
+    for (int i = 0; i < process_count; i++) {
+        if (processes[i].parent_pid == pid &&
+            processes[i].remaining_time > 0 &&
+            processes[i].state != PROCESS_TERMINATED) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+static void recompute_child_metadata(void) {
+    for (int i = 0; i < process_count; i++) {
+        processes[i].child_count = 0;
+        processes[i].active_child_count = 0;
+
+        if (processes[i].parent_pid > 0 &&
+            find_process_index_by_pid(processes[i].parent_pid) < 0) {
+            processes[i].parent_pid = 0;
+            processes[i].is_orphan = 1;
+        }
+    }
+
+    for (int i = 0; i < process_count; i++) {
+        int parent_index = find_process_index_by_pid(processes[i].parent_pid);
+
+        if (parent_index < 0)
+            continue;
+
+        processes[parent_index].child_count++;
+
+        if (processes[i].remaining_time > 0 &&
+            processes[i].state != PROCESS_TERMINATED) {
+            processes[parent_index].active_child_count++;
+        }
+    }
+}
+
+static void orphan_children_of_process(int parent_pid) {
+    for (int i = 0; i < process_count; i++) {
+        if (processes[i].parent_pid != parent_pid ||
+            processes[i].state == PROCESS_TERMINATED ||
+            processes[i].remaining_time <= 0) {
+            continue;
+        }
+
+        processes[i].parent_pid = 0;
+        processes[i].is_orphan = 1;
+
+        strcpy(
+            processes[i].last_event,
+            "Parent Terminated"
+        );
+
+        LOG_INFO(
+            "PROCESS",
+            "P%d became orphan after parent P%d terminated",
+            processes[i].pid,
+            parent_pid
+        );
+    }
+}
 
 /* ---------- PRIORITY CALCULATION ---------- */
 
@@ -87,8 +160,13 @@ void save_processes_to_file(void) {
 
         fprintf(
             f,
-            "%d\t%s\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%s\n",
+            "%d\t%d\t%d\t%d\t%d\t%d\t%s\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%s\n",
             p->pid,
+            p->parent_pid,
+            p->child_count,
+            p->active_child_count,
+            p->generation,
+            p->is_orphan,
             p->type,
             p->priority,
             p->burst_time,
@@ -124,7 +202,8 @@ void load_processes_from_file(void) {
     int count = 0;
 
     if (fscanf(f, "PROC_SAVE %d\n", &version) != 1 ||
-        version != PROCESS_SAVE_VERSION) {
+        version < 1 ||
+        version > PROCESS_SAVE_VERSION) {
         fclose(f);
         return;
     }
@@ -144,33 +223,71 @@ void load_processes_from_file(void) {
         PCB p;
         memset(&p, 0, sizeof(PCB));
 
-        int scanned = fscanf(
-            f,
-            "%d\t%19[^\t]\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%127[^\n]\n",
-            &p.pid,
-            p.type,
-            &p.priority,
-            &p.burst_time,
-            &p.remaining_time,
-            &p.waiting_time,
-            &p.turnaround_time,
-            &p.memory_required,
-            &p.state,
-            &p.creation_time,
-            &p.completion_time,
-            &p.last_scheduled_time,
-            &p.times_preempted,
-            &p.total_wait_time,
-            &p.is_starving,
-            &p.io_pending,
-            &p.resource_blocked,
-            &p.assigned_core,
-            &p.memory_allocated,
-            p.last_event
-        );
+        int scanned = 0;
 
-        if (scanned != 20)
-            continue;
+        if (version == 1) {
+            scanned = fscanf(
+                f,
+                "%d\t%19[^\t]\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%127[^\n]\n",
+                &p.pid,
+                p.type,
+                &p.priority,
+                &p.burst_time,
+                &p.remaining_time,
+                &p.waiting_time,
+                &p.turnaround_time,
+                &p.memory_required,
+                &p.state,
+                &p.creation_time,
+                &p.completion_time,
+                &p.last_scheduled_time,
+                &p.times_preempted,
+                &p.total_wait_time,
+                &p.is_starving,
+                &p.io_pending,
+                &p.resource_blocked,
+                &p.assigned_core,
+                &p.memory_allocated,
+                p.last_event
+            );
+
+            if (scanned != 20)
+                continue;
+        }
+        else {
+            scanned = fscanf(
+                f,
+                "%d\t%d\t%d\t%d\t%d\t%d\t%19[^\t]\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%127[^\n]\n",
+                &p.pid,
+                &p.parent_pid,
+                &p.child_count,
+                &p.active_child_count,
+                &p.generation,
+                &p.is_orphan,
+                p.type,
+                &p.priority,
+                &p.burst_time,
+                &p.remaining_time,
+                &p.waiting_time,
+                &p.turnaround_time,
+                &p.memory_required,
+                &p.state,
+                &p.creation_time,
+                &p.completion_time,
+                &p.last_scheduled_time,
+                &p.times_preempted,
+                &p.total_wait_time,
+                &p.is_starving,
+                &p.io_pending,
+                &p.resource_blocked,
+                &p.assigned_core,
+                &p.memory_allocated,
+                p.last_event
+            );
+
+            if (scanned != 25)
+                continue;
+        }
 
         normalize_loaded_process_state(&p);
         processes[process_count++] = p;
@@ -193,12 +310,15 @@ void load_processes_from_file(void) {
         }
     }
 
+    recompute_child_metadata();
+
     fclose(f);
 }
 
 /* ---------- ADD PROCESS ---------- */
 
-int add_process_auto(
+static int add_process_with_parent(
+    int parent_pid,
     const char *type,
     int severity,
     int lives,
@@ -212,6 +332,25 @@ int add_process_auto(
 
         printf("Process limit reached!\n");
         return 0;
+    }
+
+    int parent_index = -1;
+
+    if (parent_pid > 0) {
+        parent_index = find_process_index_by_pid(parent_pid);
+
+        if (parent_index < 0 ||
+            processes[parent_index].state == PROCESS_TERMINATED ||
+            processes[parent_index].remaining_time <= 0) {
+            printf("❌ Child process rejected (parent process is not active)\n");
+            LOG_WARNING(
+                "PROCESS",
+                "Rejected child process '%s': parent P%d is not active",
+                type,
+                parent_pid
+            );
+            return 0;
+        }
     }
 
     int memory_required = 20 + (severity * 3);
@@ -252,6 +391,18 @@ int add_process_auto(
     /* UNIQUE PID */
 
     p.pid = next_pid++;
+
+    p.parent_pid = parent_pid;
+
+    p.child_count = 0;
+
+    p.active_child_count = 0;
+
+    p.generation = parent_index >= 0 ?
+        processes[parent_index].generation + 1 :
+        0;
+
+    p.is_orphan = 0;
 
     strncpy(
         p.type,
@@ -302,7 +453,10 @@ int add_process_auto(
 
     p.resource_blocked = 0;
 
-    strcpy(p.last_event, "Process Created");
+    strcpy(
+        p.last_event,
+        parent_index >= 0 ? "Child Process Created" : "Process Created"
+    );
 
     /* MEMORY CHECK */
 
@@ -326,8 +480,27 @@ int add_process_auto(
 
     process_count++;
 
+    if (parent_index >= 0) {
+        processes[parent_index].child_count++;
+        processes[parent_index].active_child_count++;
+
+        strcpy(
+            processes[parent_index].last_event,
+            "Child Process Created"
+        );
+    }
+
     save_processes_to_file();
-    LOG_INFO("PROCESS", "Created process P%d type=%s priority=%d memory=%d burst=%d", p.pid, p.type, p.priority, p.memory_required, p.burst_time);
+    LOG_INFO(
+        "PROCESS",
+        "Created process P%d parent=%d type=%s priority=%d memory=%d burst=%d",
+        p.pid,
+        p.parent_pid,
+        p.type,
+        p.priority,
+        p.memory_required,
+        p.burst_time
+    );
     ipc_handle_scheduler_event(
         "CREATED",
         p.pid,
@@ -343,6 +516,13 @@ int add_process_auto(
         "PID: %d\n",
         p.pid
     );
+
+    if (p.parent_pid > 0) {
+        printf(
+            "Parent PID: %d\n",
+            p.parent_pid
+        );
+    }
 
     printf(
         "Type: %s\n",
@@ -394,6 +574,49 @@ int add_process_auto(
     return 1;
 }
 
+int add_process_auto(
+    const char *type,
+    int severity,
+    int lives,
+    int location,
+    int urgency,
+    int people,
+    int damage
+) {
+    return add_process_with_parent(
+        0,
+        type,
+        severity,
+        lives,
+        location,
+        urgency,
+        people,
+        damage
+    );
+}
+
+int add_child_process_auto(
+    int parent_pid,
+    const char *type,
+    int severity,
+    int lives,
+    int location,
+    int urgency,
+    int people,
+    int damage
+) {
+    return add_process_with_parent(
+        parent_pid,
+        type,
+        severity,
+        lives,
+        location,
+        urgency,
+        people,
+        damage
+    );
+}
+
 /* ---------- TERMINATE PROCESS ---------- */
 /* COMPLETED PROCESSES REMAIN SAVED */
 
@@ -402,6 +625,8 @@ void terminate_process(int pid) {
     for (int i = 0; i < process_count; i++) {
 
         if (processes[i].pid == pid) {
+
+            int parent_index = find_process_index_by_pid(processes[i].parent_pid);
 
             processes[i].state = PROCESS_TERMINATED;
 
@@ -423,6 +648,14 @@ void terminate_process(int pid) {
             }
 
             release_resources(i);
+
+            if (parent_index >= 0 &&
+                processes[parent_index].active_child_count > 0) {
+                processes[parent_index].active_child_count--;
+            }
+
+            orphan_children_of_process(pid);
+            recompute_child_metadata();
 
             save_processes_to_file();
 
@@ -464,17 +697,22 @@ void print_process_state(char *buffer) {
             temp,
 
             "PID %-3d | "
+            "PPID %-3d | "
             "Type %-12s | "
             "Priority %-2d | "
             "State %-12s | "
+            "Children %d/%d | "
             "Burst %-3d | "
             "Remaining %-3d | "
             "Memory %-3d MB\n",
 
             processes[i].pid,
+            processes[i].parent_pid,
             processes[i].type,
             processes[i].priority,
             state_str,
+            processes[i].active_child_count,
+            processes[i].child_count,
             processes[i].burst_time,
             processes[i].remaining_time,
             processes[i].memory_required

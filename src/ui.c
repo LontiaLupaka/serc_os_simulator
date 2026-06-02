@@ -24,7 +24,7 @@ static guint deadlock_timer = 0;
 
 /* INPUT FIELDS */
 GtkWidget *e_type, *e_sev, *e_lives, *e_loc;
-GtkWidget *e_urg, *e_people, *e_damage;
+GtkWidget *e_urg, *e_people, *e_damage, *e_parent;
 
 /* ===================== PROCESS SCREEN DECLARATION ===================== */
 void process_screen();
@@ -191,6 +191,9 @@ void add_proc_real(GtkButton *btn, gpointer user_data) {
     int damage =
         atoi(gtk_editable_get_text(GTK_EDITABLE(e_damage)));
 
+    int parent_pid =
+        atoi(gtk_editable_get_text(GTK_EDITABLE(e_parent)));
+
     if (strlen(type) == 0) {
 
         GtkAlertDialog *dialog =
@@ -213,7 +216,8 @@ void add_proc_real(GtkButton *btn, gpointer user_data) {
     }
 
     if (sev <= 0 || sev > 10 ||
-        urg <= 0 || urg > 5) {
+        urg <= 0 || urg > 5 ||
+        parent_pid < 0) {
 
         GtkAlertDialog *dialog =
             gtk_alert_dialog_new(
@@ -224,7 +228,8 @@ void add_proc_real(GtkButton *btn, gpointer user_data) {
         gtk_alert_dialog_set_detail(
             dialog,
             "Severity must be between 1-10\n"
-            "Urgency must be between 1-5"
+            "Urgency must be between 1-5\n"
+            "Parent PID must be blank, 0, or a positive process id"
         );
 
         gtk_alert_dialog_show(
@@ -235,15 +240,26 @@ void add_proc_real(GtkButton *btn, gpointer user_data) {
         return;
     }
 
-    int created = add_process_auto(
-        type,
-        sev,
-        lives,
-        loc,
-        urg,
-        people,
-        damage
-    );
+    int created = parent_pid > 0 ?
+        add_child_process_auto(
+            parent_pid,
+            type,
+            sev,
+            lives,
+            loc,
+            urg,
+            people,
+            damage
+        ) :
+        add_process_auto(
+            type,
+            sev,
+            lives,
+            loc,
+            urg,
+            people,
+            damage
+        );
 
     GtkAlertDialog *dialog;
 
@@ -258,7 +274,7 @@ void add_proc_real(GtkButton *btn, gpointer user_data) {
         gtk_alert_dialog_set_detail(
             dialog,
             "The process could not be admitted.\n"
-            "Check memory capacity and Banker resource safety."
+            "Check parent PID, memory capacity, and Banker resource safety."
         );
     }
     else {
@@ -266,12 +282,16 @@ void add_proc_real(GtkButton *btn, gpointer user_data) {
         dialog =
             gtk_alert_dialog_new(
                 "%s",
-                "Process Created Successfully"
+                parent_pid > 0 ?
+                    "Child Process Created Successfully" :
+                    "Process Created Successfully"
             );
 
         gtk_alert_dialog_set_detail(
             dialog,
-            "Emergency process added successfully."
+            parent_pid > 0 ?
+                "Emergency child process added successfully." :
+                "Emergency process added successfully."
         );
     }
 
@@ -289,6 +309,7 @@ void add_proc_real(GtkButton *btn, gpointer user_data) {
     gtk_editable_set_text(GTK_EDITABLE(e_urg), "");
     gtk_editable_set_text(GTK_EDITABLE(e_people), "");
     gtk_editable_set_text(GTK_EDITABLE(e_damage), "");
+    gtk_editable_set_text(GTK_EDITABLE(e_parent), "");
 }
 
 /* -------- CREATE -------- */
@@ -327,6 +348,20 @@ void create() {
     gtk_box_append(GTK_BOX(type_box), type_label);
     gtk_box_append(GTK_BOX(type_box), e_type);
     gtk_box_append(GTK_BOX(form_box), type_box);
+
+    /* PARENT */
+    GtkWidget *parent_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 4);
+    gtk_widget_add_css_class(parent_box, "form-group");
+
+    GtkWidget *parent_label = gtk_label_new("Parent PID");
+    gtk_widget_add_css_class(parent_label, "form-label");
+
+    e_parent = gtk_entry_new();
+    gtk_entry_set_placeholder_text(GTK_ENTRY(e_parent), "Optional: existing parent process id");
+
+    gtk_box_append(GTK_BOX(parent_box), parent_label);
+    gtk_box_append(GTK_BOX(parent_box), e_parent);
+    gtk_box_append(GTK_BOX(form_box), parent_box);
 
     /* SEVERITY */
     GtkWidget *sev_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 4);
@@ -545,15 +580,17 @@ void refresh_live_process_table() {
 
     const char *headers[] = {
         "PID",
+        "PPID",
         "TYPE",
         "STATE",
         "PRIORITY",
         "REMAINING",
         "MEMORY",
+        "CHILDREN",
         "EVENT"
     };
 
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 9; i++) {
 
         GtkWidget *h = gtk_label_new(headers[i]);
 
@@ -581,26 +618,32 @@ void refresh_live_process_table() {
         );
 
         char pid[32];
+        char ppid[32];
         char priority[32];
         char remaining[32];
         char memory[32];
+        char children[32];
 
         sprintf(pid, "P%d", processes[i].pid);
+        sprintf(ppid, "%s%d", processes[i].parent_pid > 0 ? "P" : "", processes[i].parent_pid);
         sprintf(priority, "%d", processes[i].priority);
         sprintf(remaining, "%d", processes[i].remaining_time);
         sprintf(memory, "%d MB", processes[i].memory_allocated);
+        sprintf(children, "%d/%d", processes[i].active_child_count, processes[i].child_count);
 
-        GtkWidget *labels[7];
+        GtkWidget *labels[9];
 
         labels[0] = gtk_label_new(pid);
-        labels[1] = gtk_label_new(processes[i].type);
-        labels[2] = gtk_label_new(state);
-        labels[3] = gtk_label_new(priority);
-        labels[4] = gtk_label_new(remaining);
-        labels[5] = gtk_label_new(memory);
-        labels[6] = gtk_label_new(processes[i].last_event);
+        labels[1] = gtk_label_new(ppid);
+        labels[2] = gtk_label_new(processes[i].type);
+        labels[3] = gtk_label_new(state);
+        labels[4] = gtk_label_new(priority);
+        labels[5] = gtk_label_new(remaining);
+        labels[6] = gtk_label_new(memory);
+        labels[7] = gtk_label_new(children);
+        labels[8] = gtk_label_new(processes[i].last_event);
 
-        for (int c = 0; c < 7; c++) {
+        for (int c = 0; c < 9; c++) {
 
             gtk_widget_add_css_class(
                 labels[c],

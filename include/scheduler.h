@@ -36,5 +36,6 @@ void print_scheduler_stats(char *buffer);
 void print_scheduler_report(char *buffer);
 void initialize_scheduler();
 void reset_scheduler_for_run();
+void save_scheduler_state(void);
 
 #endif

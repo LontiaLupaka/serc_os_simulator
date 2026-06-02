@@ -1,85 +1,257 @@
-1780038992	2	SYSTEM	System reset: clearing process, memory, scheduler state, and logs
-1780039019	1	MEMORY	Allocated 26MB to P1 using Best Fit at block 0-25
-1780039019	1	PROCESS	Created process P1 type=fire priority=3 memory=26 burst=7
-1780039019	1	IPC	Queued SCHED_EVT message from P0 to P1: t=0 process admitted to IPC-aware scheduler
-1780039028	1	IPC	Queued SCHED_EVT message from P0 to P1: t=0 CPU dispatch granted
-1780039028	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=0 process admitted to IPC-aware scheduler
-1780039028	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=0 CPU dispatch granted
-1780039044	1	MEMORY	Allocated 44MB to P2 using First Fit at block 26-69
-1780039044	1	PROCESS	Created process P2 type=police priority=1 memory=44 burst=22
-1780039044	1	IPC	Queued SCHED_EVT message from P0 to P2: t=2 process admitted to IPC-aware scheduler
-1780039051	1	IPC	Queued SCHED_EVT message from P0 to P1: t=2 higher priority process entered ready queue
-1780039051	1	IPC	Queued SCHED_EVT message from P0 to P2: t=2 CPU dispatch granted
-1780039051	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=2 process admitted to IPC-aware scheduler
-1780039051	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=2 CPU dispatch granted
-1780039072	1	MEMORY	Freed 44MB owned by P2
-1780039072	1	SCHEDULER	Process P2 completed at time 24
-1780039072	1	IPC	Queued SCHED_EVT message from P0 to P2: t=24 process completed and released scheduler ownership
-1780039072	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=24 process completed and released scheduler ownership
-1780039073	1	IPC	Queued SCHED_EVT message from P0 to P1: t=24 CPU dispatch granted
-1780039073	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=2 higher priority process entered ready queue
-1780039073	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=24 CPU dispatch granted
-1780039077	1	MEMORY	Freed 26MB owned by P1
-1780039077	1	SCHEDULER	Process P1 completed at time 29
-1780039077	1	IPC	Queued SCHED_EVT message from P0 to P1: t=29 process completed and released scheduler ownership
-1780039077	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=29 process completed and released scheduler ownership
-1780039301	1	MEMORY	Allocated 23MB to P3 using Best Fit at block 0-22
-1780039301	1	PROCESS	Created process P3 type=fire priority=3 memory=23 burst=6
-1780039301	1	IPC	Queued SCHED_EVT message from P0 to P3: t=29 process admitted to IPC-aware scheduler
-1780039308	1	IPC	Queued SCHED_EVT message from P0 to P3: t=29 CPU dispatch granted
-1780039308	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=29 process admitted to IPC-aware scheduler
-1780039308	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=29 CPU dispatch granted
-1780039326	1	MEMORY	Freed 23MB owned by P3
-1780039326	1	SCHEDULER	Process P3 completed at time 35
-1780039326	1	IPC	Queued SCHED_EVT message from P0 to P3: t=35 process completed and released scheduler ownership
-1780039326	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=35 process completed and released scheduler ownership
-1780039526	1	MEMORY	Allocated 35MB to P4 using First Fit at block 0-34
-1780039526	1	PROCESS	Created process P4 type=police priority=2 memory=35 burst=10
-1780039526	1	IPC	Queued SCHED_EVT message from P0 to P4: t=35 process admitted to IPC-aware scheduler
-1780039532	1	IPC	Queued SCHED_EVT message from P0 to P4: t=35 CPU dispatch granted
-1780039532	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=35 process admitted to IPC-aware scheduler
-1780039532	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=35 CPU dispatch granted
-1780039569	1	MEMORY	Allocated 26MB to P5 using Best Fit at block 35-60
-1780039569	1	PROCESS	Created process P5 type=pilice priority=2 memory=26 burst=8
-1780039569	1	IPC	Queued SCHED_EVT message from P0 to P5: t=37 process admitted to IPC-aware scheduler
-1780039577	1	IPC	Queued SCHED_EVT message from P0 to P4: t=38 time quantum expired, process returned to ready queue
-1780039578	1	IPC	Queued SCHED_EVT message from P0 to P5: t=38 CPU dispatch granted
-1780039578	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=37 process admitted to IPC-aware scheduler
-1780039578	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=38 CPU dispatch granted
-1780039580	1	IPC	Queued SCHED_EVT message from P0 to P5: t=41 time quantum expired, process returned to ready queue
-1780039581	1	IPC	Queued SCHED_EVT message from P0 to P4: t=41 CPU dispatch granted
-1780039581	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=38 time quantum expired, process returned to ready queue
-1780039581	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=41 CPU dispatch granted
-1780039583	1	IPC	Queued SCHED_EVT message from P0 to P4: t=44 time quantum expired, process returned to ready queue
-1780039584	1	IPC	Queued SCHED_EVT message from P0 to P5: t=44 CPU dispatch granted
-1780039584	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=41 time quantum expired, process returned to ready queue
-1780039584	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=44 CPU dispatch granted
-1780039586	1	IPC	Queued SCHED_EVT message from P0 to P5: t=47 time quantum expired, process returned to ready queue
-1780039587	1	IPC	Queued SCHED_EVT message from P0 to P4: t=47 CPU dispatch granted
-1780039587	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=44 time quantum expired, process returned to ready queue
-1780039587	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=47 CPU dispatch granted
-1780039589	1	IPC	Queued SCHED_EVT message from P0 to P4: t=50 time quantum expired, process returned to ready queue
-1780039590	1	IPC	Queued SCHED_EVT message from P0 to P5: t=50 CPU dispatch granted
-1780039590	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=47 time quantum expired, process returned to ready queue
-1780039590	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=50 CPU dispatch granted
-1780039591	1	MEMORY	Freed 26MB owned by P5
-1780039591	1	SCHEDULER	Process P5 completed at time 52
-1780039591	1	IPC	Queued SCHED_EVT message from P0 to P5: t=52 process completed and released scheduler ownership
-1780039591	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=52 process completed and released scheduler ownership
-1780039592	1	IPC	Queued SCHED_EVT message from P0 to P4: t=52 CPU dispatch granted
-1780039592	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=50 time quantum expired, process returned to ready queue
-1780039592	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=52 CPU dispatch granted
-1780039592	1	MEMORY	Freed 35MB owned by P4
-1780039592	1	SCHEDULER	Process P4 completed at time 53
-1780039592	1	IPC	Queued SCHED_EVT message from P0 to P4: t=53 process completed and released scheduler ownership
-1780039592	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=53 process completed and released scheduler ownership
-1780040853	1	MEMORY	Allocated 26MB to P6 using Best Fit at block 0-25
-1780040853	1	PROCESS	Created process P6 type=police priority=2 memory=26 burst=7
-1780040853	1	IPC	Queued SCHED_EVT message from P0 to P6: t=53 process admitted to IPC-aware scheduler
-1780040874	1	IPC	Queued SCHED_EVT message from P0 to P6: t=53 CPU dispatch granted
-1780040874	1	IPC	Delivered SCHED_EVT message from P0 to P6: t=53 process admitted to IPC-aware scheduler
-1780040874	1	IPC	Delivered SCHED_EVT message from P0 to P6: t=53 CPU dispatch granted
-1780040880	1	MEMORY	Freed 26MB owned by P6
-1780040880	1	SCHEDULER	Process P6 completed at time 60
-1780040880	1	IPC	Queued SCHED_EVT message from P0 to P6: t=60 process completed and released scheduler ownership
-1780040880	1	IPC	Delivered SCHED_EVT message from P0 to P6: t=60 process completed and released scheduler ownership
+1780406801	2	SYSTEM	System reset: clearing process, memory, scheduler state, and logs
+1780406905	1	MEMORY	Allocated 41MB to P1 using First Fit at block 0-40
+1780406905	1	PROCESS	Created process P1 parent=0 type=fire priority=1 memory=41 burst=18
+1780406905	1	IPC	Queued SCHED_EVT message from P0 to P1: t=0 process admitted to IPC-aware scheduler
+1780406965	1	MEMORY	Allocated 35MB to P2 using First Fit at block 41-75
+1780406965	1	PROCESS	Created process P2 parent=1 type=ambulance priority=1 memory=35 burst=15
+1780406965	1	IPC	Queued SCHED_EVT message from P0 to P2: t=0 process admitted to IPC-aware scheduler
+1780406971	1	IPC	Queued SCHED_EVT message from P0 to P1: t=0 CPU dispatch granted
+1780406971	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=0 process admitted to IPC-aware scheduler
+1780406971	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=0 CPU dispatch granted
+1780406973	1	IPC	Queued SCHED_EVT message from P0 to P1: t=3 time quantum expired, process returned to ready queue
+1780406974	1	IPC	Queued SCHED_EVT message from P0 to P2: t=3 CPU dispatch granted
+1780406974	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=0 process admitted to IPC-aware scheduler
+1780406974	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=3 CPU dispatch granted
+1780406976	1	IPC	Queued SCHED_EVT message from P0 to P2: t=6 time quantum expired, process returned to ready queue
+1780406977	1	IPC	Queued SCHED_EVT message from P0 to P1: t=6 CPU dispatch granted
+1780406977	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=3 time quantum expired, process returned to ready queue
+1780406977	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=6 CPU dispatch granted
+1780406979	1	IPC	Queued SCHED_EVT message from P0 to P1: t=9 time quantum expired, process returned to ready queue
+1780406980	1	IPC	Queued SCHED_EVT message from P0 to P2: t=9 CPU dispatch granted
+1780406980	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=6 time quantum expired, process returned to ready queue
+1780406980	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=9 CPU dispatch granted
+1780406982	1	IPC	Queued SCHED_EVT message from P0 to P2: t=12 time quantum expired, process returned to ready queue
+1780406983	1	IPC	Queued SCHED_EVT message from P0 to P1: t=12 CPU dispatch granted
+1780406983	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=9 time quantum expired, process returned to ready queue
+1780406983	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=12 CPU dispatch granted
+1780406985	1	IPC	Queued SCHED_EVT message from P0 to P1: t=15 time quantum expired, process returned to ready queue
+1780406986	1	IPC	Queued SCHED_EVT message from P0 to P2: t=15 CPU dispatch granted
+1780406986	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=12 time quantum expired, process returned to ready queue
+1780406986	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=15 CPU dispatch granted
+1780406988	1	IPC	Queued SCHED_EVT message from P0 to P2: t=18 time quantum expired, process returned to ready queue
+1780406989	1	IPC	Queued SCHED_EVT message from P0 to P1: t=18 CPU dispatch granted
+1780406989	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=15 time quantum expired, process returned to ready queue
+1780406989	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=18 CPU dispatch granted
+1780406991	1	IPC	Queued SCHED_EVT message from P0 to P1: t=21 time quantum expired, process returned to ready queue
+1780406992	1	IPC	Queued SCHED_EVT message from P0 to P2: t=21 CPU dispatch granted
+1780406992	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=18 time quantum expired, process returned to ready queue
+1780406992	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=21 CPU dispatch granted
+1780406994	1	IPC	Queued SCHED_EVT message from P0 to P2: t=24 time quantum expired, process returned to ready queue
+1780406997	1	IPC	Queued SCHED_EVT message from P0 to P1: t=24 CPU dispatch granted
+1780406997	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=21 time quantum expired, process returned to ready queue
+1780406997	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=24 CPU dispatch granted
+1780406999	1	IPC	Queued SCHED_EVT message from P0 to P1: t=27 time quantum expired, process returned to ready queue
+1780407000	1	IPC	Queued SCHED_EVT message from P0 to P2: t=27 CPU dispatch granted
+1780407000	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=24 time quantum expired, process returned to ready queue
+1780407000	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=27 CPU dispatch granted
+1780407002	1	MEMORY	Freed 35MB owned by P2
+1780407002	1	SCHEDULER	Process P2 completed at time 30
+1780407002	1	IPC	Queued SCHED_EVT message from P0 to P2: t=30 process completed and released scheduler ownership
+1780407002	1	IPC	Delivered SCHED_EVT message from P0 to P2: t=30 process completed and released scheduler ownership
+1780407003	1	IPC	Queued SCHED_EVT message from P0 to P1: t=30 CPU dispatch granted
+1780407003	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=27 time quantum expired, process returned to ready queue
+1780407003	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=30 CPU dispatch granted
+1780407005	1	MEMORY	Freed 41MB owned by P1
+1780407005	1	SCHEDULER	Process P1 completed at time 33
+1780407005	1	IPC	Queued SCHED_EVT message from P0 to P1: t=33 process completed and released scheduler ownership
+1780407005	1	IPC	Delivered SCHED_EVT message from P0 to P1: t=33 process completed and released scheduler ownership
+1780420296	1	MEMORY	Allocated 23MB to P3 using Best Fit at block 0-22
+1780420296	1	PROCESS	Created process P3 parent=0 type=fire priority=2 memory=23 burst=6
+1780420296	1	IPC	Queued SCHED_EVT message from P0 to P3: t=33 process admitted to IPC-aware scheduler
+1780420329	1	MEMORY	Allocated 23MB to P4 using Best Fit at block 23-45
+1780420329	1	PROCESS	Created process P4 parent=3 type=police priority=3 memory=23 burst=6
+1780420329	1	IPC	Queued SCHED_EVT message from P0 to P4: t=33 process admitted to IPC-aware scheduler
+1780420339	1	IPC	Queued SCHED_EVT message from P0 to P3: t=33 CPU dispatch granted
+1780420339	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=33 process admitted to IPC-aware scheduler
+1780420339	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=33 CPU dispatch granted
+1780420344	1	MEMORY	Freed 23MB owned by P3
+1780420344	1	PROCESS	P4 became orphan after parent P3 terminated
+1780420344	1	SCHEDULER	Process P3 completed at time 39
+1780420344	1	IPC	Queued SCHED_EVT message from P0 to P3: t=39 process completed and released scheduler ownership
+1780420344	1	IPC	Delivered SCHED_EVT message from P0 to P3: t=39 process completed and released scheduler ownership
+1780420345	1	IPC	Queued SCHED_EVT message from P0 to P4: t=39 CPU dispatch granted
+1780420345	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=33 process admitted to IPC-aware scheduler
+1780420345	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=39 CPU dispatch granted
+1780420350	1	MEMORY	Freed 23MB owned by P4
+1780420350	1	SCHEDULER	Process P4 completed at time 45
+1780420350	1	IPC	Queued SCHED_EVT message from P0 to P4: t=45 process completed and released scheduler ownership
+1780420350	1	IPC	Delivered SCHED_EVT message from P0 to P4: t=45 process completed and released scheduler ownership
+1780422562	1	MEMORY	Allocated 23MB to P5 using Best Fit at block 0-22
+1780422562	1	PROCESS	Created process P5 parent=0 type=school priority=2 memory=23 burst=6
+1780422562	1	IPC	Queued SCHED_EVT message from P0 to P5: t=45 process admitted to IPC-aware scheduler
+1780422745	1	MEMORY	Allocated 23MB to P6 using Best Fit at block 23-45
+1780422745	1	PROCESS	Created process P6 parent=5 type=fire priority=3 memory=23 burst=6
+1780422745	1	IPC	Queued SCHED_EVT message from P0 to P6: t=45 process admitted to IPC-aware scheduler
+1780422868	1	IPC	Queued SCHED_EVT message from P0 to P5: t=45 CPU dispatch granted
+1780422868	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=45 process admitted to IPC-aware scheduler
+1780422868	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=45 CPU dispatch granted
+1780422873	1	MEMORY	Freed 23MB owned by P5
+1780422873	1	PROCESS	P6 became orphan after parent P5 terminated
+1780422873	1	SCHEDULER	Process P5 completed at time 51
+1780422873	1	IPC	Queued SCHED_EVT message from P0 to P5: t=51 process completed and released scheduler ownership
+1780422873	1	IPC	Delivered SCHED_EVT message from P0 to P5: t=51 process completed and released scheduler ownership
+1780422874	1	IPC	Queued SCHED_EVT message from P0 to P6: t=51 CPU dispatch granted
+1780422874	1	IPC	Delivered SCHED_EVT message from P0 to P6: t=45 process admitted to IPC-aware scheduler
+1780422874	1	IPC	Delivered SCHED_EVT message from P0 to P6: t=51 CPU dispatch granted
+1780422879	1	MEMORY	Freed 23MB owned by P6
+1780422879	1	SCHEDULER	Process P6 completed at time 57
+1780422879	1	IPC	Queued SCHED_EVT message from P0 to P6: t=57 process completed and released scheduler ownership
+1780422879	1	IPC	Delivered SCHED_EVT message from P0 to P6: t=57 process completed and released scheduler ownership
+1780427875	1	MEMORY	Allocated 23MB to P7 using Best Fit at block 0-22
+1780427875	1	PROCESS	Created process P7 parent=0 type=police priority=2 memory=23 burst=6
+1780427875	1	IPC	Queued SCHED_EVT message from P0 to P7: t=57 process admitted to IPC-aware scheduler
+1780427882	1	IPC	Queued SCHED_EVT message from P0 to P7: t=57 CPU dispatch granted
+1780427882	1	IPC	Delivered SCHED_EVT message from P0 to P7: t=57 process admitted to IPC-aware scheduler
+1780427882	1	IPC	Delivered SCHED_EVT message from P0 to P7: t=57 CPU dispatch granted
+1780427887	1	MEMORY	Freed 23MB owned by P7
+1780427887	1	SCHEDULER	Process P7 completed at time 63
+1780427887	1	IPC	Queued SCHED_EVT message from P0 to P7: t=63 process completed and released scheduler ownership
+1780427887	1	IPC	Delivered SCHED_EVT message from P0 to P7: t=63 process completed and released scheduler ownership
+1780428098	1	MEMORY	Allocated 23MB to P8 using Best Fit at block 0-22
+1780428098	1	PROCESS	Created process P8 parent=0 type=police priority=2 memory=23 burst=6
+1780428098	1	IPC	Queued SCHED_EVT message from P0 to P8: t=63 process admitted to IPC-aware scheduler
+1780428104	1	IPC	Queued SCHED_EVT message from P0 to P8: t=63 CPU dispatch granted
+1780428104	1	IPC	Delivered SCHED_EVT message from P0 to P8: t=63 process admitted to IPC-aware scheduler
+1780428104	1	IPC	Delivered SCHED_EVT message from P0 to P8: t=63 CPU dispatch granted
+1780428109	1	MEMORY	Freed 23MB owned by P8
+1780428109	1	SCHEDULER	Process P8 completed at time 69
+1780428109	1	IPC	Queued SCHED_EVT message from P0 to P8: t=69 process completed and released scheduler ownership
+1780428109	1	IPC	Delivered SCHED_EVT message from P0 to P8: t=69 process completed and released scheduler ownership
+1780428927	2	PROCESS	Rejected child process 'fire': parent P1 is not active
+1780428948	1	MEMORY	Allocated 23MB to P9 using Best Fit at block 0-22
+1780428948	1	PROCESS	Created process P9 parent=0 type=fire priority=2 memory=23 burst=6
+1780428948	1	IPC	Queued SCHED_EVT message from P0 to P9: t=69 process admitted to IPC-aware scheduler
+1780428955	1	IPC	Queued SCHED_EVT message from P0 to P9: t=69 CPU dispatch granted
+1780428955	1	IPC	Delivered SCHED_EVT message from P0 to P9: t=69 process admitted to IPC-aware scheduler
+1780428955	1	IPC	Delivered SCHED_EVT message from P0 to P9: t=69 CPU dispatch granted
+1780428960	1	MEMORY	Freed 23MB owned by P9
+1780428960	1	SCHEDULER	Process P9 completed at time 75
+1780428960	1	IPC	Queued SCHED_EVT message from P0 to P9: t=75 process completed and released scheduler ownership
+1780428960	1	IPC	Delivered SCHED_EVT message from P0 to P9: t=75 process completed and released scheduler ownership
+1780428989	1	MEMORY	Allocated 23MB to P10 using Best Fit at block 0-22
+1780428989	1	PROCESS	Created process P10 parent=0 type=fire priority=2 memory=23 burst=6
+1780428989	1	IPC	Queued SCHED_EVT message from P0 to P10: t=75 process admitted to IPC-aware scheduler
+1780429006	1	MEMORY	Allocated 26MB to P11 using Best Fit at block 23-48
+1780429006	1	PROCESS	Created process P11 parent=0 type=police priority=2 memory=26 burst=7
+1780429006	1	IPC	Queued SCHED_EVT message from P0 to P11: t=75 process admitted to IPC-aware scheduler
+1780429012	1	IPC	Queued SCHED_EVT message from P0 to P10: t=75 CPU dispatch granted
+1780429012	1	IPC	Delivered SCHED_EVT message from P0 to P10: t=75 process admitted to IPC-aware scheduler
+1780429012	1	IPC	Delivered SCHED_EVT message from P0 to P10: t=75 CPU dispatch granted
+1780429014	1	IPC	Queued SCHED_EVT message from P0 to P10: t=78 time quantum expired, process returned to ready queue
+1780429015	1	IPC	Queued SCHED_EVT message from P0 to P11: t=78 CPU dispatch granted
+1780429015	1	IPC	Delivered SCHED_EVT message from P0 to P11: t=75 process admitted to IPC-aware scheduler
+1780429015	1	IPC	Delivered SCHED_EVT message from P0 to P11: t=78 CPU dispatch granted
+1780429017	1	IPC	Queued SCHED_EVT message from P0 to P11: t=81 time quantum expired, process returned to ready queue
+1780429018	1	IPC	Queued SCHED_EVT message from P0 to P10: t=81 CPU dispatch granted
+1780429018	1	IPC	Delivered SCHED_EVT message from P0 to P10: t=78 time quantum expired, process returned to ready queue
+1780429018	1	IPC	Delivered SCHED_EVT message from P0 to P10: t=81 CPU dispatch granted
+1780429020	1	MEMORY	Freed 23MB owned by P10
+1780429020	1	SCHEDULER	Process P10 completed at time 84
+1780429020	1	IPC	Queued SCHED_EVT message from P0 to P10: t=84 process completed and released scheduler ownership
+1780429020	1	IPC	Delivered SCHED_EVT message from P0 to P10: t=84 process completed and released scheduler ownership
+1780429021	1	IPC	Queued SCHED_EVT message from P0 to P11: t=84 CPU dispatch granted
+1780429021	1	IPC	Delivered SCHED_EVT message from P0 to P11: t=81 time quantum expired, process returned to ready queue
+1780429021	1	IPC	Delivered SCHED_EVT message from P0 to P11: t=84 CPU dispatch granted
+1780429024	1	MEMORY	Freed 26MB owned by P11
+1780429024	1	SCHEDULER	Process P11 completed at time 88
+1780429024	1	IPC	Queued SCHED_EVT message from P0 to P11: t=88 process completed and released scheduler ownership
+1780429024	1	IPC	Delivered SCHED_EVT message from P0 to P11: t=88 process completed and released scheduler ownership
+1780429091	1	MEMORY	Allocated 26MB to P12 using Best Fit at block 0-25
+1780429091	1	PROCESS	Created process P12 parent=0 type=police priority=2 memory=26 burst=7
+1780429091	1	IPC	Queued SCHED_EVT message from P0 to P12: t=88 process admitted to IPC-aware scheduler
+1780429098	1	IPC	Queued SCHED_EVT message from P0 to P12: t=88 CPU dispatch granted
+1780429098	1	IPC	Delivered SCHED_EVT message from P0 to P12: t=88 process admitted to IPC-aware scheduler
+1780429098	1	IPC	Delivered SCHED_EVT message from P0 to P12: t=88 CPU dispatch granted
+1780429104	1	MEMORY	Freed 26MB owned by P12
+1780429104	1	SCHEDULER	Process P12 completed at time 95
+1780429104	1	IPC	Queued SCHED_EVT message from P0 to P12: t=95 process completed and released scheduler ownership
+1780429104	1	IPC	Delivered SCHED_EVT message from P0 to P12: t=95 process completed and released scheduler ownership
+1780429156	1	MEMORY	Allocated 23MB to P13 using Best Fit at block 0-22
+1780429156	1	PROCESS	Created process P13 parent=0 type=police priority=2 memory=23 burst=6
+1780429156	1	IPC	Queued SCHED_EVT message from P0 to P13: t=95 process admitted to IPC-aware scheduler
+1780429167	1	IPC	Queued SCHED_EVT message from P0 to P13: t=95 CPU dispatch granted
+1780429167	1	IPC	Delivered SCHED_EVT message from P0 to P13: t=95 process admitted to IPC-aware scheduler
+1780429167	1	IPC	Delivered SCHED_EVT message from P0 to P13: t=95 CPU dispatch granted
+1780429184	1	MEMORY	Allocated 38MB to P14 using First Fit at block 23-60
+1780429184	1	PROCESS	Created process P14 parent=0 type=fire priority=1 memory=38 burst=15
+1780429184	1	IPC	Queued SCHED_EVT message from P0 to P14: t=97 process admitted to IPC-aware scheduler
+1780429189	1	IPC	Queued SCHED_EVT message from P0 to P13: t=97 higher priority process entered ready queue
+1780429189	1	IPC	Queued SCHED_EVT message from P0 to P14: t=97 CPU dispatch granted
+1780429189	1	IPC	Delivered SCHED_EVT message from P0 to P14: t=97 process admitted to IPC-aware scheduler
+1780429189	1	IPC	Delivered SCHED_EVT message from P0 to P14: t=97 CPU dispatch granted
+1780429203	1	MEMORY	Freed 38MB owned by P14
+1780429203	1	SCHEDULER	Process P14 completed at time 112
+1780429203	1	IPC	Queued SCHED_EVT message from P0 to P14: t=112 process completed and released scheduler ownership
+1780429203	1	IPC	Delivered SCHED_EVT message from P0 to P14: t=112 process completed and released scheduler ownership
+1780429204	1	IPC	Queued SCHED_EVT message from P0 to P13: t=112 CPU dispatch granted
+1780429204	1	IPC	Delivered SCHED_EVT message from P0 to P13: t=97 higher priority process entered ready queue
+1780429204	1	IPC	Delivered SCHED_EVT message from P0 to P13: t=112 CPU dispatch granted
+1780429207	1	MEMORY	Freed 23MB owned by P13
+1780429207	1	SCHEDULER	Process P13 completed at time 116
+1780429207	1	IPC	Queued SCHED_EVT message from P0 to P13: t=116 process completed and released scheduler ownership
+1780429207	1	IPC	Delivered SCHED_EVT message from P0 to P13: t=116 process completed and released scheduler ownership
+1780429347	1	MEMORY	Allocated 23MB to P15 using Best Fit at block 0-22
+1780429347	1	PROCESS	Created process P15 parent=0 type=police priority=3 memory=23 burst=6
+1780429347	1	IPC	Queued SCHED_EVT message from P0 to P15: t=116 process admitted to IPC-aware scheduler
+1780429353	1	IPC	Queued SCHED_EVT message from P0 to P15: t=116 CPU dispatch granted
+1780429353	1	IPC	Delivered SCHED_EVT message from P0 to P15: t=116 process admitted to IPC-aware scheduler
+1780429353	1	IPC	Delivered SCHED_EVT message from P0 to P15: t=116 CPU dispatch granted
+1780429367	1	MEMORY	Allocated 29MB to P16 using Best Fit at block 23-51
+1780429367	1	PROCESS	Created process P16 parent=0 type=police priority=2 memory=29 burst=8
+1780429367	1	IPC	Queued SCHED_EVT message from P0 to P16: t=120 process admitted to IPC-aware scheduler
+1780429373	1	IPC	Queued SCHED_EVT message from P0 to P15: t=120 higher priority process entered ready queue
+1780429373	1	IPC	Queued SCHED_EVT message from P0 to P16: t=120 CPU dispatch granted
+1780429373	1	IPC	Delivered SCHED_EVT message from P0 to P16: t=120 process admitted to IPC-aware scheduler
+1780429373	1	IPC	Delivered SCHED_EVT message from P0 to P16: t=120 CPU dispatch granted
+1780429380	1	MEMORY	Freed 29MB owned by P16
+1780429380	1	SCHEDULER	Process P16 completed at time 128
+1780429380	1	IPC	Queued SCHED_EVT message from P0 to P16: t=128 process completed and released scheduler ownership
+1780429380	1	IPC	Delivered SCHED_EVT message from P0 to P16: t=128 process completed and released scheduler ownership
+1780429381	1	IPC	Queued SCHED_EVT message from P0 to P15: t=128 CPU dispatch granted
+1780429381	1	IPC	Delivered SCHED_EVT message from P0 to P15: t=120 higher priority process entered ready queue
+1780429381	1	IPC	Delivered SCHED_EVT message from P0 to P15: t=128 CPU dispatch granted
+1780429382	1	MEMORY	Freed 23MB owned by P15
+1780429382	1	SCHEDULER	Process P15 completed at time 130
+1780429382	1	IPC	Queued SCHED_EVT message from P0 to P15: t=130 process completed and released scheduler ownership
+1780429382	1	IPC	Delivered SCHED_EVT message from P0 to P15: t=130 process completed and released scheduler ownership
+1780429443	1	MEMORY	Allocated 26MB to P17 using Best Fit at block 0-25
+1780429443	1	PROCESS	Created process P17 parent=0 type=police priority=1 memory=26 burst=12
+1780429443	1	IPC	Queued SCHED_EVT message from P0 to P17: t=130 process admitted to IPC-aware scheduler
+1780429470	1	MEMORY	Allocated 23MB to P18 using Best Fit at block 26-48
+1780429470	1	PROCESS	Created process P18 parent=17 type=fire priority=2 memory=23 burst=6
+1780429470	1	IPC	Queued SCHED_EVT message from P0 to P18: t=130 process admitted to IPC-aware scheduler
+1780429478	1	IPC	Queued SCHED_EVT message from P0 to P17: t=130 CPU dispatch granted
+1780429479	1	IPC	Delivered SCHED_EVT message from P0 to P17: t=130 process admitted to IPC-aware scheduler
+1780429479	1	IPC	Delivered SCHED_EVT message from P0 to P17: t=130 CPU dispatch granted
+1780429491	1	MEMORY	Freed 26MB owned by P17
+1780429491	1	PROCESS	P18 became orphan after parent P17 terminated
+1780429491	1	SCHEDULER	Process P17 completed at time 142
+1780429491	1	IPC	Queued SCHED_EVT message from P0 to P17: t=142 process completed and released scheduler ownership
+1780429491	1	IPC	Delivered SCHED_EVT message from P0 to P17: t=142 process completed and released scheduler ownership
+1780429492	1	IPC	Queued SCHED_EVT message from P0 to P18: t=142 CPU dispatch granted
+1780429492	1	IPC	Delivered SCHED_EVT message from P0 to P18: t=130 process admitted to IPC-aware scheduler
+1780429492	1	IPC	Delivered SCHED_EVT message from P0 to P18: t=142 CPU dispatch granted
+1780429497	1	MEMORY	Freed 23MB owned by P18
+1780429497	1	SCHEDULER	Process P18 completed at time 148
+1780429497	1	IPC	Queued SCHED_EVT message from P0 to P18: t=148 process completed and released scheduler ownership
+1780429497	1	IPC	Delivered SCHED_EVT message from P0 to P18: t=148 process completed and released scheduler ownership
+1780429545	1	MEMORY	Allocated 23MB to P19 using Best Fit at block 0-22
+1780429545	1	PROCESS	Created process P19 parent=0 type=fire priority=2 memory=23 burst=6
+1780429545	1	IPC	Queued SCHED_EVT message from P0 to P19: t=148 process admitted to IPC-aware scheduler
+1780429571	1	MEMORY	Allocated 50MB to P20 using Worst Fit at block 23-72
+1780429571	1	PROCESS	Created process P20 parent=19 type=ambulance priority=1 memory=50 burst=25
+1780429571	1	IPC	Queued SCHED_EVT message from P0 to P20: t=148 process admitted to IPC-aware scheduler
+1780429577	1	IPC	Queued SCHED_EVT message from P0 to P20: t=148 CPU dispatch granted
+1780429577	1	IPC	Delivered SCHED_EVT message from P0 to P20: t=148 process admitted to IPC-aware scheduler
+1780429577	1	IPC	Delivered SCHED_EVT message from P0 to P20: t=148 CPU dispatch granted
+1780429602	1	MEMORY	Freed 50MB owned by P20
+1780429602	1	SCHEDULER	Process P20 completed at time 173
+1780429602	1	IPC	Queued SCHED_EVT message from P0 to P20: t=173 process completed and released scheduler ownership
+1780429602	1	IPC	Delivered SCHED_EVT message from P0 to P20: t=173 process completed and released scheduler ownership
+1780429603	1	IPC	Queued SCHED_EVT message from P0 to P19: t=173 CPU dispatch granted
+1780429603	1	IPC	Delivered SCHED_EVT message from P0 to P19: t=148 process admitted to IPC-aware scheduler
+1780429603	1	IPC	Delivered SCHED_EVT message from P0 to P19: t=173 CPU dispatch granted
+1780429608	1	MEMORY	Freed 23MB owned by P19
+1780429608	1	SCHEDULER	Process P19 completed at time 179
+1780429608	1	IPC	Queued SCHED_EVT message from P0 to P19: t=179 process completed and released scheduler ownership
+1780429608	1	IPC	Delivered SCHED_EVT message from P0 to P19: t=179 process completed and released scheduler ownership
