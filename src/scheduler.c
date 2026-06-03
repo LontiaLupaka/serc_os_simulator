@@ -708,15 +708,40 @@ void run_hybrid_scheduler(char *output) {
 
         if (scheduler_running_process == -1) {
 
-            scheduler_running_process =
-                get_next_process();
+            scheduler_running_process = get_next_process();
 
-            if (scheduler_running_process == -1)
-                break;
+            /* No ready process: advance time (idle tick) and record idle timeline */
+            if (scheduler_running_process == -1) {
 
-            if (!acquire_resources_for_dispatch(
-                    scheduler_running_process,
-                    output)) {
+                /* Start an idle timeline entry if none open */
+                int found_open_idle = 0;
+                for (int ti = timeline_count - 1; ti >= 0; ti--) {
+                    if (is_open_timeline_entry(execution_timeline[ti]) && execution_timeline[ti].pid == 0) {
+                        found_open_idle = 1;
+                        break;
+                    }
+                }
+
+                if (!found_open_idle) {
+                    /* PID 0 represents idle time */
+                    record_timeline(0, scheduler_stats.current_time, -1);
+                }
+
+                /* Allow resource-waiting processes to be retried on each tick */
+                retry_resource_waiting_processes(output);
+
+                /* Advance global time for idle tick */
+                scheduler_stats.current_time++;
+                save_scheduler_state();
+
+                /* Continue main loop (try to dispatch again) */
+                continue;
+            }
+
+            /* If we are about to dispatch a real process, close any open idle entry */
+            close_timeline(0, scheduler_stats.current_time, scheduler_stats.current_time);
+
+            if (!acquire_resources_for_dispatch(scheduler_running_process, output)) {
                 scheduler_running_process = -1;
                 scheduler_slice = 0;
                 continue;
@@ -1260,6 +1285,10 @@ void print_scheduler_stats(char *buffer) {
     }
 
     for (int i = 0; i < timeline_count; i++) {
+
+        /* Skip idle timeline entries (pid == 0) when computing busy time */
+        if (execution_timeline[i].pid == 0)
+            continue;
 
         int end_time = execution_timeline[i].end_time;
 
