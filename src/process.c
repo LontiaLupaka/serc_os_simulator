@@ -815,6 +815,7 @@ void reset_system(void) {
     /* Remove persistent save file */
     remove(PROCESS_SAVE_FILE);
     remove("gantt_history.dat");
+    remove("scheduler_state.dat");
     remove(IPC_LOG_SAVE_FILE);
     logger_clear_logs();
     LOG_WARNING("SYSTEM", "System reset: clearing process, memory, scheduler state, and logs");

@@ -94,14 +94,21 @@ static void refresh_scheduler_status_label(void) {
 
     ipc_get_recent_logs(logs, MAX_IPC_LOGS, &ipc_count);
 
+    int visible_ipc_count = 0;
+    for (int i = 0; i < ipc_count; i++) {
+        if (strcmp(logs[i].event, "INIT") != 0) {
+            visible_ipc_count++;
+        }
+    }
+
     char status[256];
     snprintf(
         status,
         sizeof(status),
         "Deadlock: %s\nIPC activity: %d recent event%s",
         deadlock_state,
-        ipc_count,
-        ipc_count == 1 ? "" : "s"
+        visible_ipc_count,
+        visible_ipc_count == 1 ? "" : "s"
     );
 
     gtk_label_set_text(GTK_LABEL(scheduler_status_label), status);
