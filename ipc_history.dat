@@ -1,22 +1,117 @@
 IPC_LOG_SAVE 1
-20
+115
 0	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
 1	0	1	ENQUEUE	SCHED_EVT	QUEUED	t=0 process admitted to IPC-aware scheduler
 0	0	1	CREATED	SCHED_EVT	SCHEDULER	t=0 process admitted to IPC-aware scheduler
 2	0	2	ENQUEUE	SCHED_EVT	QUEUED	t=0 process admitted to IPC-aware scheduler
 0	0	2	CREATED	SCHED_EVT	SCHEDULER	t=0 process admitted to IPC-aware scheduler
-3	0	3	ENQUEUE	SCHED_EVT	QUEUED	t=0 process admitted to IPC-aware scheduler
-0	0	3	CREATED	SCHED_EVT	SCHEDULER	t=0 process admitted to IPC-aware scheduler
-4	0	4	ENQUEUE	SCHED_EVT	QUEUED	t=0 process admitted to IPC-aware scheduler
-0	0	4	CREATED	SCHED_EVT	SCHEDULER	t=0 process admitted to IPC-aware scheduler
-5	0	5	ENQUEUE	SCHED_EVT	QUEUED	t=0 process admitted to IPC-aware scheduler
-0	0	5	CREATED	SCHED_EVT	SCHEDULER	t=0 process admitted to IPC-aware scheduler
-6	0	4	ENQUEUE	SCHED_EVT	QUEUED	t=9 resource request denied by Banker safety check
-9	0	4	RESOURCE_WAIT	SCHED_EVT	SCHEDULER	t=9 resource request denied by Banker safety check
-7	0	5	ENQUEUE	SCHED_EVT	QUEUED	t=9 resource request denied by Banker safety check
-9	0	5	RESOURCE_WAIT	SCHED_EVT	SCHEDULER	t=9 resource request denied by Banker safety check
-8	0	4	ENQUEUE	SCHED_EVT	QUEUED	t=57 resources allocated and process moved to READY
-57	0	4	RESOURCE_READY	SCHED_EVT	SCHEDULER	t=57 resources allocated and process moved to READY
-9	0	5	ENQUEUE	SCHED_EVT	QUEUED	t=60 resources allocated and process moved to READY
-60	0	5	RESOURCE_READY	SCHED_EVT	SCHEDULER	t=60 resources allocated and process moved to READY
-61	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
+3	0	1	ENQUEUE	SCHED_EVT	QUEUED	t=0 CPU dispatch granted
+0	0	1	DISPATCH	SCHED_EVT	SCHEDULER	t=0 CPU dispatch granted
+4	0	1	DEQUEUE	SCHED_EVT	DELIVERED	t=0 process admitted to IPC-aware scheduler
+5	0	1	DEQUEUE	SCHED_EVT	DELIVERED	t=0 CPU dispatch granted
+6	0	1	ENQUEUE	SCHED_EVT	QUEUED	t=3 time quantum expired, process returned to ready queue
+3	0	1	QUANTUM_EXPIRED	SCHED_EVT	SCHEDULER	t=3 time quantum expired, process returned to ready queue
+7	0	2	ENQUEUE	SCHED_EVT	QUEUED	t=3 CPU dispatch granted
+3	0	2	DISPATCH	SCHED_EVT	SCHEDULER	t=3 CPU dispatch granted
+8	0	2	DEQUEUE	SCHED_EVT	DELIVERED	t=0 process admitted to IPC-aware scheduler
+9	0	2	DEQUEUE	SCHED_EVT	DELIVERED	t=3 CPU dispatch granted
+10	0	2	ENQUEUE	SCHED_EVT	QUEUED	t=6 time quantum expired, process returned to ready queue
+6	0	2	QUANTUM_EXPIRED	SCHED_EVT	SCHEDULER	t=6 time quantum expired, process returned to ready queue
+11	0	1	ENQUEUE	SCHED_EVT	QUEUED	t=6 CPU dispatch granted
+6	0	1	DISPATCH	SCHED_EVT	SCHEDULER	t=6 CPU dispatch granted
+12	0	1	DEQUEUE	SCHED_EVT	DELIVERED	t=3 time quantum expired, process returned to ready queue
+13	0	1	DEQUEUE	SCHED_EVT	DELIVERED	t=6 CPU dispatch granted
+14	0	1	ENQUEUE	SCHED_EVT	QUEUED	t=9 time quantum expired, process returned to ready queue
+9	0	1	QUANTUM_EXPIRED	SCHED_EVT	SCHEDULER	t=9 time quantum expired, process returned to ready queue
+15	0	2	ENQUEUE	SCHED_EVT	QUEUED	t=9 CPU dispatch granted
+9	0	2	DISPATCH	SCHED_EVT	SCHEDULER	t=9 CPU dispatch granted
+16	0	2	DEQUEUE	SCHED_EVT	DELIVERED	t=6 time quantum expired, process returned to ready queue
+17	0	2	DEQUEUE	SCHED_EVT	DELIVERED	t=9 CPU dispatch granted
+18	0	2	ENQUEUE	SCHED_EVT	QUEUED	t=12 time quantum expired, process returned to ready queue
+12	0	2	QUANTUM_EXPIRED	SCHED_EVT	SCHEDULER	t=12 time quantum expired, process returned to ready queue
+19	0	1	ENQUEUE	SCHED_EVT	QUEUED	t=12 CPU dispatch granted
+12	0	1	DISPATCH	SCHED_EVT	SCHEDULER	t=12 CPU dispatch granted
+20	0	1	DEQUEUE	SCHED_EVT	DELIVERED	t=9 time quantum expired, process returned to ready queue
+21	0	1	DEQUEUE	SCHED_EVT	DELIVERED	t=12 CPU dispatch granted
+22	0	1	ENQUEUE	SCHED_EVT	QUEUED	t=13 process completed and released scheduler ownership
+13	0	1	TERMINATED	SCHED_EVT	SCHEDULER	t=13 process completed and released scheduler ownership
+23	0	1	DEQUEUE	SCHED_EVT	DELIVERED	t=13 process completed and released scheduler ownership
+24	0	2	ENQUEUE	SCHED_EVT	QUEUED	t=13 CPU dispatch granted
+13	0	2	DISPATCH	SCHED_EVT	SCHEDULER	t=13 CPU dispatch granted
+25	0	2	DEQUEUE	SCHED_EVT	DELIVERED	t=12 time quantum expired, process returned to ready queue
+26	0	2	DEQUEUE	SCHED_EVT	DELIVERED	t=13 CPU dispatch granted
+27	0	2	ENQUEUE	SCHED_EVT	QUEUED	t=14 process completed and released scheduler ownership
+14	0	2	TERMINATED	SCHED_EVT	SCHEDULER	t=14 process completed and released scheduler ownership
+28	0	2	DEQUEUE	SCHED_EVT	DELIVERED	t=14 process completed and released scheduler ownership
+29	0	3	ENQUEUE	SCHED_EVT	QUEUED	t=14 process admitted to IPC-aware scheduler
+14	0	3	CREATED	SCHED_EVT	SCHEDULER	t=14 process admitted to IPC-aware scheduler
+30	0	4	ENQUEUE	SCHED_EVT	QUEUED	t=14 process admitted to IPC-aware scheduler
+14	0	4	CREATED	SCHED_EVT	SCHEDULER	t=14 process admitted to IPC-aware scheduler
+31	0	3	ENQUEUE	SCHED_EVT	QUEUED	t=14 CPU dispatch granted
+14	0	3	DISPATCH	SCHED_EVT	SCHEDULER	t=14 CPU dispatch granted
+32	0	3	DEQUEUE	SCHED_EVT	DELIVERED	t=14 process admitted to IPC-aware scheduler
+33	0	3	DEQUEUE	SCHED_EVT	DELIVERED	t=14 CPU dispatch granted
+34	0	3	ENQUEUE	SCHED_EVT	QUEUED	t=17 time quantum expired, process returned to ready queue
+17	0	3	QUANTUM_EXPIRED	SCHED_EVT	SCHEDULER	t=17 time quantum expired, process returned to ready queue
+35	0	4	ENQUEUE	SCHED_EVT	QUEUED	t=17 CPU dispatch granted
+17	0	4	DISPATCH	SCHED_EVT	SCHEDULER	t=17 CPU dispatch granted
+36	0	4	DEQUEUE	SCHED_EVT	DELIVERED	t=14 process admitted to IPC-aware scheduler
+37	0	4	DEQUEUE	SCHED_EVT	DELIVERED	t=17 CPU dispatch granted
+38	0	4	ENQUEUE	SCHED_EVT	QUEUED	t=20 time quantum expired, process returned to ready queue
+20	0	4	QUANTUM_EXPIRED	SCHED_EVT	SCHEDULER	t=20 time quantum expired, process returned to ready queue
+39	0	3	ENQUEUE	SCHED_EVT	QUEUED	t=20 CPU dispatch granted
+20	0	3	DISPATCH	SCHED_EVT	SCHEDULER	t=20 CPU dispatch granted
+40	0	3	DEQUEUE	SCHED_EVT	DELIVERED	t=17 time quantum expired, process returned to ready queue
+41	0	3	DEQUEUE	SCHED_EVT	DELIVERED	t=20 CPU dispatch granted
+42	0	3	ENQUEUE	SCHED_EVT	QUEUED	t=23 time quantum expired, process returned to ready queue
+23	0	3	QUANTUM_EXPIRED	SCHED_EVT	SCHEDULER	t=23 time quantum expired, process returned to ready queue
+43	0	4	ENQUEUE	SCHED_EVT	QUEUED	t=23 CPU dispatch granted
+23	0	4	DISPATCH	SCHED_EVT	SCHEDULER	t=23 CPU dispatch granted
+44	0	4	DEQUEUE	SCHED_EVT	DELIVERED	t=20 time quantum expired, process returned to ready queue
+45	0	4	DEQUEUE	SCHED_EVT	DELIVERED	t=23 CPU dispatch granted
+46	0	4	ENQUEUE	SCHED_EVT	QUEUED	t=26 process completed and released scheduler ownership
+26	0	4	TERMINATED	SCHED_EVT	SCHEDULER	t=26 process completed and released scheduler ownership
+47	0	4	DEQUEUE	SCHED_EVT	DELIVERED	t=26 process completed and released scheduler ownership
+48	0	3	ENQUEUE	SCHED_EVT	QUEUED	t=26 CPU dispatch granted
+26	0	3	DISPATCH	SCHED_EVT	SCHEDULER	t=26 CPU dispatch granted
+49	0	3	DEQUEUE	SCHED_EVT	DELIVERED	t=23 time quantum expired, process returned to ready queue
+50	0	3	DEQUEUE	SCHED_EVT	DELIVERED	t=26 CPU dispatch granted
+51	0	3	ENQUEUE	SCHED_EVT	QUEUED	t=27 process completed and released scheduler ownership
+27	0	3	TERMINATED	SCHED_EVT	SCHEDULER	t=27 process completed and released scheduler ownership
+52	0	3	DEQUEUE	SCHED_EVT	DELIVERED	t=27 process completed and released scheduler ownership
+53	0	5	ENQUEUE	SCHED_EVT	QUEUED	t=27 process admitted to IPC-aware scheduler
+27	0	5	CREATED	SCHED_EVT	SCHEDULER	t=27 process admitted to IPC-aware scheduler
+54	0	5	ENQUEUE	SCHED_EVT	QUEUED	t=27 CPU dispatch granted
+27	0	5	DISPATCH	SCHED_EVT	SCHEDULER	t=27 CPU dispatch granted
+55	0	5	DEQUEUE	SCHED_EVT	DELIVERED	t=27 process admitted to IPC-aware scheduler
+56	0	5	DEQUEUE	SCHED_EVT	DELIVERED	t=27 CPU dispatch granted
+57	0	6	ENQUEUE	SCHED_EVT	QUEUED	t=30 process admitted to IPC-aware scheduler
+30	0	6	CREATED	SCHED_EVT	SCHEDULER	t=30 process admitted to IPC-aware scheduler
+58	0	5	ENQUEUE	SCHED_EVT	QUEUED	t=30 higher priority process entered ready queue
+30	0	5	PREEMPTED	SCHED_EVT	SCHEDULER	t=30 higher priority process entered ready queue
+59	0	6	ENQUEUE	SCHED_EVT	QUEUED	t=30 CPU dispatch granted
+30	0	6	DISPATCH	SCHED_EVT	SCHEDULER	t=30 CPU dispatch granted
+60	0	6	DEQUEUE	SCHED_EVT	DELIVERED	t=30 process admitted to IPC-aware scheduler
+61	0	6	DEQUEUE	SCHED_EVT	DELIVERED	t=30 CPU dispatch granted
+62	0	6	ENQUEUE	SCHED_EVT	QUEUED	t=52 process completed and released scheduler ownership
+52	0	6	TERMINATED	SCHED_EVT	SCHEDULER	t=52 process completed and released scheduler ownership
+63	0	6	DEQUEUE	SCHED_EVT	DELIVERED	t=52 process completed and released scheduler ownership
+64	0	5	ENQUEUE	SCHED_EVT	QUEUED	t=52 CPU dispatch granted
+52	0	5	DISPATCH	SCHED_EVT	SCHEDULER	t=52 CPU dispatch granted
+65	0	5	DEQUEUE	SCHED_EVT	DELIVERED	t=30 higher priority process entered ready queue
+66	0	5	DEQUEUE	SCHED_EVT	DELIVERED	t=52 CPU dispatch granted
+67	0	5	ENQUEUE	SCHED_EVT	QUEUED	t=55 process completed and released scheduler ownership
+55	0	5	TERMINATED	SCHED_EVT	SCHEDULER	t=55 process completed and released scheduler ownership
+68	0	5	DEQUEUE	SCHED_EVT	DELIVERED	t=55 process completed and released scheduler ownership
+69	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
+70	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
+71	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
+72	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
+73	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
+74	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
+75	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
+76	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
+77	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
+78	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
+79	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized
+80	0	0	INIT	SYSTEM	OK	IPC message queues and communication log initialized

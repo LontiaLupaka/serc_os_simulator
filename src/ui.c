@@ -1048,7 +1048,10 @@ void activate(GtkApplication *app, gpointer data) {
 
     GtkCssProvider *provider = gtk_css_provider_new();
 
-    gtk_css_provider_load_from_path(provider, "style.css");
+    gtk_css_provider_load_from_path(
+        provider,
+        "/home/lontia/serc_os_simulator/style.css"
+    );
 
     gtk_style_context_add_provider_for_display(
         gdk_display_get_default(),

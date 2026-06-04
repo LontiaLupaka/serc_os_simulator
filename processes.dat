@@ -1,8 +1,9 @@
 PROC_SAVE 2
+7
 6
-5
-1	0	0	0	0	0	Critical	1	21	0	36	57	44	5	0	57	54	0	0	0	0	0	0	0	Process Completed
-2	0	0	0	0	0	Critical	1	21	0	39	60	44	5	0	60	57	0	0	0	0	0	0	0	Process Completed
-3	0	0	0	0	0	Critical	1	21	0	42	63	44	5	0	63	60	0	0	0	0	0	0	0	Process Completed
-4	0	0	0	0	0	Critical	1	21	0	33	102	44	5	0	102	99	0	0	0	0	0	0	0	Process Completed
-5	0	0	0	0	0	Critical	1	21	0	33	105	44	5	0	105	102	0	0	0	0	0	0	0	Process Completed
+1	0	0	0	0	0	Fire	2	7	0	6	13	26	5	0	13	12	0	0	0	0	0	0	0	Process Completed
+2	0	0	0	0	0	Gas leak	2	7	0	7	14	23	5	0	14	13	0	0	0	0	0	0	0	Process Completed
+3	0	1	0	0	0	Flood 	2	7	0	6	13	26	5	14	27	26	0	0	0	0	0	0	0	Process Completed
+4	3	0	0	1	0	food supply	2	6	0	6	12	23	5	14	26	23	0	0	0	0	0	0	0	Process Completed
+5	0	0	0	0	0	Road maintenance	3	6	0	22	28	23	5	27	55	52	1	0	0	0	0	0	0	Process Completed
+6	0	0	0	0	0	Ambulance	1	22	0	0	22	44	5	30	52	30	0	0	0	0	0	0	0	Process Completed
